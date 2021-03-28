@@ -17,7 +17,7 @@ anychart.onDocumentReady(function () {
     var chart = anychart.heatMap(data);
 
     // set the chart title
-    chart.title("Heat Map: Basic Sample");
+    chart.title("Predicted Play Heat Map");
 
     // set the container id
     chart.container("heatmap");
