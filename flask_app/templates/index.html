@@ -22,6 +22,10 @@
     <!-- Chart JS scripts -->
     <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-heatmap.min.js"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Temp Heatmap -->
+
     <script>
         anychart.onDocumentReady(function () {
 
@@ -757,7 +761,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Play Type</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" id="play_type_viz">
 
                                 </div>
                             </div>
@@ -769,7 +773,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Play Direction</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" id="play_direction_viz">
 
                                 </div>
                             </div>
@@ -781,7 +785,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Run vs Pass</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" id="run_vs_pass_viz">
 
                                 </div>
                             </div>
@@ -846,6 +850,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/static/js/sb-admin-2.min.js"></script>
+    <script src="/static/js/play_type_viz.js"></script>
+    <script src="/static/js/run_vs_pass_viz.js"></script>
+    <script src="/static/js/play_direction_viz.js"></script>
+
 
 
 
