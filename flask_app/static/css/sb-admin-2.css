@@ -11283,3 +11283,31 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+
+/*!
+ * Additions to CSS
+ * Dustin
+
+ .axis_box {
+ fill: blue;
+ fill: rgb(232,232,232);
+ fill: linear-gradient(0deg, rgba(232,232,232,1) 0%, rgba(148,148,148,1) 100%);
+ }
+  */
+  .hmapAxis text{
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: white;
+  fill: white;
+  word-wrap: break-word;
+  }
+
+  .hmapAxis{
+  word-wrap: break-word;
+  }
+
+  .domain{
+  opacity: 0;}
+
