@@ -9,155 +9,185 @@ var map_w = 570
 var map_h = 270
 // append the svg object to the body of the page
 var svg_h = d3.select("#heatmap_viz")
-.append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+var box_stroke_width = 1
+var legendWidth = Math.min(width*0.8, 400);
+var x
+var y
+var dataMin
+var dataMax
+var myColor
+var mouseover
+var mousemove
+var mouseleave
+var boxes
+var myGroups, myVars, data1
 
 //temp data
-data1 = [{group: "LEFT", variable: "RUN", value: "0.39"},
-{group: "MIDDLE", variable: "RUN", value: "0.44"},
-{group: "RIGHT", variable: "RUN", value: "0.40"},
-{group: "LEFT", variable: "Pass (Short)", value: "0.51"},
-{group: "MIDDLE", variable: "Pass (Short)", value: "0.48"},
-{group: "RIGHT", variable: "Pass (Short)", value: "0.46"},
-{group: "LEFT", variable: "Pass (Long)", value: "0.75"},
-{group: "MIDDLE", variable: "Pass (Long)", value: "0.72"},
-{group: "RIGHT", variable: "Pass (Long)", value: "0.85"}]
+function makeData(){
+data1 = [{group: "LEFT", variable: "RUN", value: Math.random()},
+{group: "MIDDLE", variable: "RUN", value: Math.random()},
+{group: "RIGHT", variable: "RUN", value: Math.random()},
+{group: "LEFT", variable: "Pass (Short)", value: Math.random()},
+{group: "MIDDLE", variable: "Pass (Short)", value: Math.random()},
+{group: "RIGHT", variable: "Pass (Short)", value: Math.random()},
+{group: "LEFT", variable: "Pass (Long)", value: Math.random()},
+{group: "MIDDLE", variable: "Pass (Long)", value: Math.random()},
+{group: "RIGHT", variable: "Pass (Long)", value: Math.random()}]
 
+dataMin = d3.min(data1, function(d) {return d.value})
+dataMax = d3.max(data1, function(d) {return d.value})
+
+// Build color scale
+myColor = d3.scaleSequential()
+    .domain([dataMin, dataMax])
+    .interpolator(d3.interpolate("#1034A6", "#F62D2D"));
+}
 
 //Read the data
-d3.csv("/static/heatmap_data.csv", function(data) {
+// Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
+createField()
 
-  // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-  var myGroups = d3.map(data1, function(d){return d.group;}).keys()
-  var myVars = d3.map(data1, function(d){return d.variable;}).keys()
+makeData()
+createAxes(data1)
+createLegend(data1)
+createHeatmap(svg_h, data1)
 
-  // Build X scales and axis:
-  var x = d3.scaleBand()
-    .range([ 0, map_w ])
-    .domain(myGroups)
-    //.padding(0.05);
-  svg_h.append("g")
-    .style("font-size", 15)
-    .attr("class", "hmapAxis")
-    .attr("transform", "translate(0, 0)")
-    .call(d3.axisTop(x).tickSize(0))
-    .select(".domain").remove()
 
-  // Build Y scales and axis:
-  var y = d3.scaleBand()
-    .range([ map_h, 10 ])
-    .domain(myVars)
-    //.padding(0.05);
-  svg_h.append("g")
-    .style("font-size", 15)
-    .attr("class", "hmapAxis")
-    .attr("transform", "translate(-10, -35)")
-    .call(d3.axisLeft(y).tickSize(0))
-    .selectAll(".tick text")
-    .call(wrap, 20);
 
-  // Build color scale
-  var myColor = d3.scaleSequential()
-    //.interpolator(d3.interpolateInferno)
-    //interpolate("blue", "red"))
-    //.domain([.3,.8])
-    .domain([d3.min(data1, function (d) {return d.value}), d3.max(data1, function(d) {return d.value})])
-    //.range(["#1034A6", "#F62D2D"])
-    .interpolator(d3.interpolate("#1034A6", "#F62D2D"));
-  // create a tooltip
-  var tooltip = d3.select("#heatmap_viz")
-    .append("g")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-    .style("pointer-events", "none")
+//create Axes
+function createAxes(predictions){
+    myGroups = d3.map(predictions, function(d){return d.group;}).keys()
+    myVars = d3.map(predictions, function(d){return d.variable;}).keys()
 
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var box_stroke_width = 1
-  var mouseover = function(d) {
+    // Build X scales and axis:
+    x = d3.scaleBand()
+        .range([ 0, map_w ])
+        .domain(myGroups)
+        //.padding(0.05);
+
+    //Append the y-axis
+    svg_h.append("g")
+        .style("font-size", 15)
+        .attr("class", "hmapAxis")
+        .attr("transform", "translate(0, 0)")
+        .call(d3.axisTop(x).tickSize(0))
+        .select(".domain").remove()
+
+    // Build Y scales and axis:
+    y = d3.scaleBand()
+        .range([ map_h, 10 ])
+        .domain(myVars)
+        //.padding(0.05);
+
+    //Append the y-axis
+    svg_h.append("g")
+        .style("font-size", 15)
+        .attr("class", "hmapAxis")
+        .attr("transform", "translate(-10, -35)")
+        .call(d3.axisLeft(y).tickSize(0))
+        .selectAll(".tick text")
+        .call(wrap, 20);
+
+    // create a tooltip
+    var tooltip = d3.select("#heatmap_viz")
+        .append("g")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("pointer-events", "none")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    mouseover = function(d) {
     tooltip
       .style("opacity", 1)
     d3.select(this)
       .style("stroke", "black")
       .style("stroke-width", 3)
       .style("opacity", 1)
-  }
-  var mousemove = function(d) {
+    }
+    mousemove = function(d) {
     tooltip
       .html("The predicted probability <br> of a " + d.variable + " to the " + d.group.toLowerCase() + " is: " + d.value)
       .style("left", (d3.mouse(this)[0]+100) + "px")
       .style("top", (d3.mouse(this)[1]+50) + "px")
-  }
-  var mouseleave = function(d) {
+    }
+    mouseleave = function(d) {
     tooltip
       .style("opacity", 0)
     d3.select(this)
       .style("stroke-width", box_stroke_width)
       .style("opacity", 0.8)
+    }
+
   }
 
-  // add the squares
-  svg_h.selectAll()
-    .data(data1, function(d) {return d.group+':'+d.variable;})
-    .enter()
-    .append("rect")
-      .attr("x", function(d) { return x(d.group)+15 })
-      .attr("y", function(d) { return y(d.variable) })
-      //.attr("rx", 10)
-      //.attr("ry", 10)
-      .attr("width", x.bandwidth() )
-      .attr("height", y.bandwidth() )
-      .style("fill", function(d) { return myColor(d.value)} )
-      .style("stroke-width", box_stroke_width)
-      .style("stroke", "black")
-      .style("opacity", 0.8)
-    .on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
+// add the heatmap squares
+function createHeatmap(selection, predictions) {
+    boxes = svg_h.selectAll('.hmap_box')
+        .data(predictions, function(d) {return d.group+':'+d.variable+':'+d.value;});
+    boxes
+        .enter()
+            .append("rect")
+            .attr("class", "hmap_box")
+            .attr("x", function(d) { return x(d.group)+15 })
+            .attr("y", function(d) { return y(d.variable) })
+            //.attr("rx", 10)
+            //.attr("ry", 10)
+            .attr("width", x.bandwidth() )
+            .attr("height", y.bandwidth() )
+            .style("stroke-width", box_stroke_width)
+            .style("stroke", "black")
+            .style("opacity", 0.8)
+            .style("fill", function(d) { return myColor(d.value)} )
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave)
+    boxes
+        .exit().remove()
+}
 
-// add the legend
-//Legend
-//Colors
+function createLegend (predictions){
 
-var legendWidth = Math.min(width*0.8, 400);
-//Extra scale since the color scale is interpolated
-var countScale = d3.scaleLinear()
-	.domain([d3.min(data1, function(d) {return d.value}), d3.max(data1, function(d) {return d.value})])
-	.range([0, width])
+    //Extra scale since the color scale is interpolated
+    var countScale = d3.scaleLinear()
+        .domain([dataMin, dataMax])
+        .range([0, width])
 
-//Calculate the variables for the temp gradient
-var numStops = 5;
-countRange = countScale.domain();
-countRange[2] = countRange[1] - countRange[0];
-countPoint = [];
-for(var i = 0; i < numStops; i++) {
-	countPoint.push(i * countRange[2]/(numStops-1) + countRange[0]);
-}//for i
+    //Calculate the variables for the temp gradient
+    var numStops = 5;
+    countRange = countScale.domain();
+    countRange[2] = countRange[1] - countRange[0];
+    countPoint = [];
+    for(var i = 0; i < numStops; i++) {
+        countPoint.push(i * countRange[2]/(numStops-1) + countRange[0]);
+    }
 
-//Create the gradient
-svg_h.append("defs")
-	.append("linearGradient")
-	.attr("id", "legend-traffic")
-	.attr("x1", "0%").attr("y1", "0%")
-	.attr("x2", "100%").attr("y2", "0%")
-	.selectAll("stop")
-	.data(d3.range(numStops))
-	.enter().append("stop")
-	.attr("offset", function(d,i) {
-		return countScale( countPoint[i] )/width;
-	})
-	.attr("stop-color", function(d,i) {
-		return myColor( countPoint[i] );
-	});
-
+    //Create the gradient
+    svg_h.append("defs")
+        .append("linearGradient")
+        .attr("id", "legend-traffic")
+        .attr("x1", "0%").attr("y1", "0%")
+        .attr("x2", "100%").attr("y2", "0%")
+        .selectAll("stop")
+        .data(d3.range(numStops))
+        .enter()
+            .append("stop")
+            .attr("offset", function(d,i) {
+                return countScale( countPoint[i] )/width;
+            })
+            .attr("stop-color", function(d,i) {
+                return myColor( countPoint[i] );
+            })
 
 //Color Legend container
 var legendsvg = svg_h.append("g")
@@ -183,40 +213,45 @@ legendsvg.append("text")
 	.style("font-size", "12px")
 	.text("Probability of Play Type");
 
-//Set scale for x-axis
+//Set scale for legend x-axis
 var xScale = d3.scaleLinear()
 	 .range([-legendWidth/2, legendWidth/2])
-	 .domain([ d3.min(data1, function(d) { return d.value; }), d3.max(data1, function(d) { return d.value; })] );
+	 .domain([ dataMin, dataMax] );
 
-//Define x-axis
+//Define x-axis for the legend
 var xAxis = d3.axisBottom()
       .tickSize(0)
-	  //.tickFormat(formatPercent)
 	  .scale(xScale);
+	  //.tickFormat(formatPercent)
 
 //Set up X axis
 legendsvg.append("g")
 	.attr("class", "axis")
+	.attr("id", "legendAxis")
 	.attr("transform", "translate(0," + 8 + ")")
-	.call(xAxis);
-call(d3.axisTop(x).tickSize(0))
-    .select(".domain").remove()
-/*
-for (var i=0; i < 10; i++) {
-var increment = .10
-//var increment = (d3.max(data1, function(d) {return d.value}) - d3.min(data1, function(d) {return d.value})) / 10 ;
-    svg_h.append("rect")
-    .attr("x", 20*i)
-    .attr("y", 290)
-    .attr("width", 20)
-    .attr("height", 20)
-    .style("fill", myColor( increment * i  + d3.min(data1, function(d) {return d.value}) ) )
-} -->*/
+	.call(xAxis)
+    .select(".domain").remove();
+}
 
-//console.log(data1)
-//End csv
-})
+function updateLegend(predictions){
+    console.log("updateLegend ran")
+    //Set scale for legend x-axis
+    var newScale = d3.scaleLinear()
+         .range([-legendWidth/2, legendWidth/2])
+         .domain([ dataMin, dataMax] );
+    console.log(dataMin + " = min & max = " + dataMax)
+    console.log(data1)
+    //Define x-axis for the legend
+    var newAxis = d3.axisBottom()
+          .tickSize(0)
+          .scale(newScale);
+          //.tickFormat(formatPercent)
+    svg_h.selectAll(".axis")
+            .call(newAxis)
+}
 
+// generate the football field
+function createField (){
  // add X-Axis boxes
   svg_h.append("rect")
       .attr("class", "axis_box")
@@ -401,10 +436,10 @@ var right_hash = .685
 }
 var myUrl = d3.select('#inputYardLine').property('value');
   //Add Yard Lines Numbers
-  svg_h.append("text")
+    svg_h.append("text")
       .attr("x", 160)
       .attr("y", -120)
-      .attr("class", "yardline")
+      .attr("id", "yardline")
       .attr("text-anchor", "left")
       .attr('transform', 'rotate(90)')
       .style("font-size", "48px")
@@ -412,10 +447,10 @@ var myUrl = d3.select('#inputYardLine').property('value');
       .style("fill", "white")
       .style("max-width", 400)
       .text(myUrl);
-  svg_h.append("text")
+    svg_h.append("text")
       .attr("x", -215)
       .attr("y", 490)
-      .attr("class", "yardline")
+      .attr("id", "yardline")
       .attr("text-anchor", "left")
       .attr('transform', 'rotate(-90)')
       .style("font-size", "48px")
@@ -423,25 +458,29 @@ var myUrl = d3.select('#inputYardLine').property('value');
       .style("fill", "white")
       .style("max-width", 400)
       .text(myUrl);
-
-// when the input range changes update value
-d3.select("#inputYardLine").on("input", function() {
-  update(this.value);
-});
-
-// Initial update value
-update(50);
-
-// adjust the text
-function update(inputYardLine) {
-  // adjust the value
-  svg_h.select(".yardline")
-    .attr("text", inputYardLine);
 }
 
+//Bind updateYardLines to the submit button click event
+d3.select('#submit')
+        .on('click', updateHeatMap);
 
+function updateHeatMap(){
+    updateYardLines()
+    makeData()
+    createHeatmap(svg_h, data1)
+    updateLegend(data1)
+    console.log("test")
+    //updateHeatmap(svg_h, updateData())
+}
+//function to update the yard line numbers
+function updateYardLines() {
+    var inputLine = d3.select('#inputYardLine').property('value');
+    d3.selectAll("#yardline")
+    .text(inputLine)
+}
 
-  function wrap(text, width) {
+// Supporting function to wrap axis text labels
+function wrap(text, width) {
   text.each(function() {
     var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
