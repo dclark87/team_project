@@ -1,0 +1,27 @@
+Make sure to load the encoder.joblib file as well!
+
+The order of the columns is as follows:
+
+cols = ['down',
+        'no_huddle',
+        'goal_to_go',
+        'sp',
+        'defteam_score',
+        'half_seconds_remaining',
+        'quarter_seconds_remaining',
+        'posteam_timeouts_remaining',
+        'score_differential',
+        'posteam_score',
+        'game_seconds_remaining',
+        'ydstogo']
+y = 'play_type'
+
+
+To run the input data through the encoding, use the following code:
+
+X_enc = enc.transform(X[X.columns[0:2]])
+X_enc= X_enc.toarray()
+X_cont = np.array(pass_run[[col for col in X.columns if col not in X.columns[0:2]]])
+X_cont.shape
+X_p = np.concatenate([X_cont,X_enc[:,2::]],axis=1)
+X_p[np.where(np.isnan(X_p))] = 0

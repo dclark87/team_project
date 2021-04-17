@@ -1,6 +1,0 @@
-Flask
-Jinja2
-pandas
-numpy
-joblib
-sklearn

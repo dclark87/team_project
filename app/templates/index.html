@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Team 46 - NFL Play Prediction</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-football-ball"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">DVA Team<sup>46</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Play Predictions</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading
+            <div class="sidebar-heading">
+                Interface
+            </div>-->
+
+            <!-- Nav Item - Pages Collapse Menu
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Components</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="/static/buttons.html">Buttons</a>
+                        <a class="collapse-item" href="/static/cards.html">Cards</a>
+                    </div>
+                </div>
+            </li>-->
+
+            <!-- Nav Item - Utilities Collapse Menu
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Utilities</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="/static/utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="/static/utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="/static/utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="/static/utilities-other.html">Other</a>
+                    </div>
+                </div>
+            </li>-->
+
+            <!-- Divider
+            <hr class="sidebar-divider">-->
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Data Explorer
+            </div>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="/static/charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Charts</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/static/tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tables</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+                        <div class="h4 mb-0 text-gray-800" style="margin-top: 10px;">Team 46 - NFL Play Prediction Generator</div>
+                    </div>
+
+
+                    <form class="form-horizontal" method="post" onSubmit="showPage()"><!-- action="/analysis' -->
+                    <fieldset>
+                    <!-- NFL Team Selector Row -->
+
+
+                        <!-- NFL Team Selector -->
+                            <!-- NFL Team Icons -->
+                        <div class="h8">Select the Offense</div>
+                            <div class="btn-group col" style="margin-bottom: 10px;" data-toggle="buttons">
+                              <label class="btn btn-nfl" title="All Teams">
+                                <input type="radio" title="All Teams" name="options" id="all-teams" value="nfl" checked="checked">
+                                  <img src="/static/img/nfl-logos/nfl-logo.gif" width="30">
+                              </label>
+                              <label class="btn btn-nfl">
+                                <input type="radio" name="options" id="ari" value="ari">
+                                  <img src="/static/img/nfl-logos/ari-cardinals.gif" width="30">
+                              </label>
+                              <label class="btn btn-nfl">
+                                <input type="radio" name="options" id="atl" value="atl">
+                                  <img src="/static/img/nfl-logos/atl-falcons.gif" width="30">
+                              </label>
+                                <label class="btn btn-nfl" title="Baltimore Ravens">
+                                    <input type="radio" name="teamSelector" id="bal", value="bal">
+                                    <img src="/static/img/nfl-logos/bal-ravens.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Buffalo Bills">
+                                    <input type="radio" name="teamSelector" id="buf", value="buf">
+                                    <img src="/static/img/nfl-logos/buf-bills.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Carolina Panthers">
+                                    <input type="radio" name="teamSelector" id="car", value="car">
+                                    <img src="/static/img/nfl-logos/car-panthers.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Chicago Bears">
+                                <input type="radio" name="teamSelector" id="chi", value="chi">
+                                    <img src="/static/img/nfl-logos/chi-bears.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Cincinatti Bengals">
+                                    <input type="radio" name="teamSelector" id="cin", value="cin">
+                                    <img src="/static/img/nfl-logos/cin-bengals.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Cleveland Browns">
+                                    <input type="radio" name="teamSelector" id="cle", value="cle">
+                                    <img src="/static/img/nfl-logos/cle-browns.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Dallas Cowboys">
+                                    <input type="radio" name="teamSelector" id="dal", value="dal">
+                                    <img src="/static/img/nfl-logos/dal-cowboys.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Denver Broncos">
+                                    <input type="radio" name="teamSelector" id="den", value="den">
+                                    <img src="/static/img/nfl-logos/den-broncos.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Detroit Lions">
+                                    <input type="radio" name="teamSelector" id="det", value="det">
+                                    <img src="/static/img/nfl-logos/det-lions.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Green Bay Packers">
+                                    <input type="radio" name="teamSelector" id="gb", value="gb">
+                                    <img src="/static/img/nfl-logos/gb-packers.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Houston Texans">
+                                <input type="radio" name="teamSelector" id="hou", value="hou">
+                                    <img src="/static/img/nfl-logos/hou-texans.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Indianapolis Colts">
+                                    <input type="radio" name="teamSelector" id="ind", value="ind">
+                                    <img src="/static/img/nfl-logos/ind-colts.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Jacksonville Jaguars">
+                                    <input type="radio" name="teamSelector" id="jac", value="jac">
+                                    <img src="/static/img/nfl-logos/jac-jaguars.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Kansas City Chiefs">
+                                    <input type="radio" name="teamSelector" id="kan", value="kan">
+                                    <img src="/static/img/nfl-logos/kan-chiefs.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Los Angeles Rams">
+                                    <input type="radio" name="teamSelector" id="lar", value="lar">
+                                    <img src="/static/img/nfl-logos/la_rams.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Los Angeles Chargers">
+                                    <input type="radio" name="teamSelector" id="lac", value="lac">
+                                    <img src="/static/img/nfl-logos/la-chargers.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Las Vegas Raiders">
+                                    <input type="radio" name="teamSelector" id="lv", value="lv">
+                                    <img src="/static/img/nfl-logos/lv-raiders.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Miami Dolphins">
+                                    <input type="radio" name="teamSelector" id="mia", value="mia">
+                                    <img src="/static/img/nfl-logos/mia-dolphins.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Minnesota Vikings">
+                                    <input type="radio" name="teamSelector" id="min", value="min">
+                                    <img src="/static/img/nfl-logos/min-vikings.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="New England Patriots">
+                                    <input type="radio" name="teamSelector" id="ne", value="ne">
+                                    <img src="/static/img/nfl-logos/new-patriots.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="New Orleans Saints">
+                                    <input type="radio" name="teamSelector" id="no", value="no">
+                                    <img src="/static/img/nfl-logos/no-saints.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="New York Giants">
+                                    <input type="radio" name="teamSelector" id="nyg", value="nyg">
+                                    <img src="/static/img/nfl-logos/ny-giants.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="New York Jets">
+                                    <input type="radio" name="teamSelector" id="nyj", value="nyj">
+                                    <img src="/static/img/nfl-logos/ny-jets.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Philadelphia Eagles">
+                                    <input type="radio" name="teamSelector" id="phi", value="phi">
+                                    <img src="/static/img/nfl-logos/phi-eagles.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Pittsburgh Steelers">
+                                    <input type="radio" name="teamSelector" id="pit", value="pit">
+                                    <img src="/static/img/nfl-logos/pit-steelers.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="San Francisco 49ers">
+                                    <input type="radio" name="teamSelector" id="sf", value="sf">
+                                    <img src="/static/img/nfl-logos/san-49ers.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Seattle Seahawks">
+                                    <input type="radio" name="teamSelector" id="sea", value="sea">
+                                    <img src="/static/img/nfl-logos/sea-seahawks.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Tampa Bay Buccaneers">
+                                    <input type="radio" name="teamSelector" id="tb", value="tb">
+                                    <img src="/static/img/nfl-logos/tb-bucs.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Tennessee Titans">
+                                    <input type="radio" name="teamSelector" id="ten", value="ten">
+                                    <img src="/static/img/nfl-logos/ten-titans.gif" width="30">
+                                </label>
+                                <label class="btn btn-nfl" title="Washington Football Team">
+                                    <input type="radio" name="teamSelector" id="was", value="was">
+                                    <img src="/static/img/nfl-logos/was-football.gif" width="30">
+                                </label>
+                            </div>
+
+
+                    <!-- Primary Viz Row -->
+                    <div class="row">
+                        <!-- HeatMap Viz -->
+                        <div style="width: 740px">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Play Prediction Heatmap</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body" style="height: 400px; width: 800px">
+                                    <!-- <div class="chart-area" id="heatmap_viz" style="background-image: url('../static/img/field_no_numbers.png'); background-repeat: no-repeat; height=600px;">-->
+                                     <div class="chart-area" id="heatmap_viz" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Form -->
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Game Info</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+
+
+                                    <!-- Form Row -->
+                                    <div class="form-group row">
+                                        <!-- Input: Offense Score-->
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="inputOffenseScore">Offense Score</label>
+                                            <input id="inputOffenseScore" name="inputOffenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                        <!-- Input: Defense Score -->
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="inputDefenseScore">Defense Score</label>
+                                            <input id="inputDefenseScore" name="inputDefenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                        <!-- Select: Quarter-->
+                                        <div class="col-sm-4">
+                                            <label for="selectQuarter"> Quarter</label>
+                                            <select id="selectQuarter" name="selectQuarter" class="form-control form-control-sm input-sm">
+                                              <option value="1">1st</option>
+                                              <option value="2">2nd</option>
+                                              <option value="3">3rd</option>
+                                              <option value="4">4th</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- End Row -->
+
+                                    <!-- Form Row -->
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                        <!-- Select: Down -->
+                                            <label class="control-label" for="selectDown">Down</label>
+                                            <select id="selectDown" name="selectDown" class="form-control form-control-sm input-sm">
+                                              <option value="1">1st</option>
+                                              <option value="2">2nd</option>
+                                              <option value="3">3rd</option>
+                                              <option value="4">4th</option>
+                                            </select>
+                                        </div>
+                                        <!-- Input: Yards to Go -->
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="inputDistance">Yards to Go</label>
+                                            <input id="inputDistance" name="inputDistance" type="text" placeholder="enter yards to go" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                        <!-- Input: Yard Line -->
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="inputYardLine">Yard Line (0 - 100)</label>
+                                            <input id="inputYardLine" name="inputYardLine" type="text" placeholder="enter yard line" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                    </div><!-- End Row -->
+
+                                    <!-- Form Row -->
+                                    <div class="form-group row">
+
+                                      <!-- Time Remaining -->
+                                        <div class="col-sm-4">
+                                            <label class="control-label col-sm-9" for="timeremaining">Game Clock (mm:ss)</label>
+                                            <input id="timeremaining" name="timeremaining" type="text" placeholder="ex 13:25" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                        <!-- Starting Position -->
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="startingposition">Offense: Starting Position</label>
+                                            <input id="startingposition" name="startingposition" type="text" placeholder="enter starting position" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+                                        <!-- Input: Timeouts Remaining -->
+                                         <div class="col-sm-4">
+                                            <label class="control-label" for="timeoutsremaining">Offense: Timeouts Remaining</label>
+                                            <input id="timeoutsremaining" name="timeoutsremaining" type="text" placeholder="enter number" class="form-control form-control-sm input-sm" required="">
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Form Row -->
+                                    <div class="form-group row">
+
+                                        <!-- Input: No huddle-->
+
+                                            <div class="col-sm-5">
+                                            <div>
+                                                <input type="radio" id="huddle" name="NoHuddle" value="Huddle" checked="checked">
+                                                <label for="huddle">Huddle</label>
+                                                <input type="radio" id="nohuddle" name="NoHuddle" value="NoHuddle">
+                                                <label for="nohuddle">No-Huddle</label>
+                                            </div>
+                                        </div>
+                                    <!-- Input: Goal to go-->
+
+                                      <div class="col-sm-3">
+                                          <label class="control-label" for="huddle">Goal to Go?</label>
+                                      </div>
+                                      <div class="col-sm-4">
+                                          <div>
+                                              <input type="radio" id="goaltogo" name="goaltogo" value="True">
+                                              <label for="goaltogo">Yes</label>
+                                              <input type="radio" id="nogoaltogo" name="goaltogo" value="False" checked="checked">
+                                              <label for="nogoaltogo">No</label>
+                                          </div>
+                                      </div>
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="form-group row">
+                                        <div class="col-sm-3">
+                                            <label for="selectModel">Select Model</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select id="selectModel" name="selectModel" class="form-control form-control-sm input-sm">
+                                              <option value="1">Gradient Boosting</option>
+                                              <option value="2">Support Vector Machine</option>
+                                              <option value="3">Random Forest</option>
+                                              <option value="4">K-Nearest Neighbors</option>
+                                              <option value="5">Naive Bayes</option>
+                                              <option value="6">Decision Tree</option>
+                                            </select>
+                                        </div>
+                                      <div class="col-sm-5">
+                                            <label class="control-label" for="submit"></label>
+                                            <button id="submit" name="submit" type="button" class="btn btn-primary">Generate Prediction</button>
+                                      </div>
+                                    </div>
+
+                    </fieldset>
+                    </form>
+
+
+
+
+                    <!-- Content Row - Small Charts -->
+                    <div class="row">
+
+                        <!-- Play Type Card -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Play Type</h6>
+                                </div>
+                                <div class="card-body" id="play_type_viz">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Play Direction Card -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Play Direction</h6>
+                                </div>
+                                <div class="card-body" id="play_direction_viz">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Run vs Pass Card -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Run vs Pass</h6>
+                                </div>
+                                <div class="card-body" id="run_vs_pass_viz">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end of small charts -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Kristoffer Stobbe, Diego Hernandez, Charlie Ma, Jorge Diaz Infante, & Dustin Clark 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/static/login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Page level custom scripts -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.js"></script>
+    <script src="/static/js/prediction_heatmap_viz.js"></script>
+    <script src="/static/js/play_type_viz.js"></script>
+    <script src="/static/js/run_vs_pass_viz.js"></script>
+    <script src="/static/js/play_direction_viz.js"></script>
+
+</body>
+
+</html>
