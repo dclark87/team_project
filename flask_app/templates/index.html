@@ -358,6 +358,22 @@
                                         </select>
                                       </div>
                                     </div>
+                                    <!-- Main Form -->
+                                    <form class="form-horizontal" method="post" action="/analysis">
+                                        <fieldset>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group row">
+                                          <label class="col-md-4" for="selectQuarter">Quarter</label>
+                                          <div class="col-md-6">
+                                            <select id="selectQuarter" name="selectQuarter" class="form-control">
+                                              <option value="1">1st</option>
+                                              <option value="2">2nd</option>
+                                              <option value="3">3rd</option>
+                                              <option value="4">4th</option>
+                                            </select>
+                                          </div>
+                                        </div>
 
                                      <!-- Input: Yard Line -->
                                     <div class="form-group row">
@@ -387,37 +403,94 @@
                                       <div class="col-md-6">
                                       <input id="inputDistance" name="inputDistance" type="text" placeholder="enter yards to go" class="form-control input-sm" required="">
 
-                                      </div>
-                                    </div>
+                                       <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="timeremaining">Time Remaining in Quarter (mm:ss)</label>
+                                          <div class="col-md-6">
+                                          <input id="timeremaining" name="timeremaining" type="text" placeholder="ex 13:25" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                    <!-- Input: Offense Score-->
-                                    <div class="form-group row">
-                                      <label class="col-md-4 control-label" for="inputOffenseScore">Offense</label>
-                                      <div class="col-md-6">
-                                      <input id="inputOffenseScore" name="inputOffenseScore" type="text" placeholder="enter score" class="form-control input-sm" required="">
+                                         <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="inputYardLine">Yard Line <br>(0 - 100)</label>
+                                          <div class="col-md-6">
+                                          <input id="inputYardLine" name="inputYardLine" type="text" placeholder="enter yard line" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                      </div>
-                                    </div>
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="startingposition">Offensive Starting Position</label>
+                                          <div class="col-md-6">
+                                          <input id="startingposition" name="startingposition" type="text" placeholder="enter starting position" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                    <!-- Input: Defense Score-->
-                                    <div class="form-group row">
-                                      <label class="col-md-4 control-label" for="inputDefenseScore">Defense</label>
-                                      <div class="col-md-6">
-                                      <input id="inputDefenseScore" name="inputDefenseScore" type="text" placeholder="enter score" class="form-control input-sm" required="">
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="inputDistance">Yards to Go</label>
+                                          <div class="col-md-6">
+                                          <input id="inputDistance" name="inputDistance" type="text" placeholder="enter yards to go" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                      </div>
-                                    </div>
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="inputOffenseScore">Offense Score</label>
+                                          <div class="col-md-6">
+                                          <input id="inputOffenseScore" name="inputOffenseScore" type="text" placeholder="enter score" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                    <!-- Button -->
-                                    <div class="form-group row">
-                                      <label class="col-md-4 control-label" for="submit"></label>
-                                      <div class="col-md-8">
-                                        <button id="submit" name="submit" class="btn btn-primary" >Generate Play Prediction</button>
-                                      </div>
-                                    </div>
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="inputDefenseScore">Defense Score</label>
+                                          <div class="col-md-6">
+                                          <input id="inputDefenseScore" name="inputDefenseScore" type="text" placeholder="enter score" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
 
-                                    </fieldset>
-                                </form>
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="timeoutsremaining">Offensive Timeouts Remaining</label>
+                                          <div class="col-md-6">
+                                          <input id="timeoutsremaining" name="timeoutsremaining" type="text" placeholder="enter number" class="form-control input-md" required="">
+                                          </div>
+                                        </div>
+
+                                         <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="huddle">Huddle or No-Huddle?</label>
+                                          <div class="col-md-6">
+                                          <input type="radio" id="huddle" name="NoHuddle" value="Huddle">
+                                          <label for="huddle">Huddle</label>
+                                          <input type="radio" id="nohuddle" name="NoHuddle" value="NoHuddle">
+                                          <label for="nohuddle">No-Huddle</label>
+                                          </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="huddle">Goal to Go?</label>
+                                          <div class="col-md-6">
+                                          <input type="radio" id="goaltogo" name="goaltogo" value="True">
+                                          <label for="goaltogo">True</label>
+                                          <input type="radio" id="nogoaltogo" name="goaltogo" value="False">
+                                          <label for="nogoaltogo">False</label>
+                                          </div>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group row">
+                                          <label class="col-md-4 control-label" for="submit"></label>
+                                          <div class="col-md-8">
+                                            <button id="submit" name="submit" class="btn btn-primary">Generate Play Prediction</button>
+                                          </div>
+                                        </div>
+
+                                        </fieldset>
+                                    </form>
 
 
                                 </div>
