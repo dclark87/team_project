@@ -1,2 +1,4 @@
 .idea
 venv
+.app\backend_src\data\play_by_play_2009_2018_clean.xlsx
+.app\backend_src\data\play_by_play_2009_2018.xlsx

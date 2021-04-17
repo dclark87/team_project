@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    build: ./
+    volumes:
+      - ./app:/app
+    ports:
+      - "80:80"
+    environment:
+      - FLASK_APP=flasky.py
+      - CONTAINER_FLAG=1
+      - FLASK_DEBUG=1
+    env_file:
+      - develop.env
