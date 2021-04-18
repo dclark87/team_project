@@ -10,6 +10,7 @@ import numpy as np
 import warnings
 import joblib
 import os
+import json
 
 ############################################
 ############    CONFIG    ##################
@@ -70,6 +71,50 @@ print("\nFlask App Configuration Complete\n")
 @app.route('/')
 def index():
         return render_template('index.html')
-        
+
+@app.route('/get-data', methods=['POST', 'GET'])
+def returnProdData():
+    # Build Output Dictionary
+    ############
+    ### TEST ###
+    # Below are DUMMY Numbers
+    # Test (Demo) Full Prediction Results
+    import random
+    prob_short_pass = round(random.random(), 3)
+    prob_short_pass_upperci = round(random.random(), 3)
+    prob_short_pass_lowerci = round(random.random(), 3)
+    prob_long_pass = round(random.random(), 3)
+    prob_long_pass_upperci = round(random.random(), 3)
+    prob_long_pass_lowerci = round(random.random(), 3)
+    prob_left_run = round(random.random(), 3)
+    prob_left_run_upperci = round(random.random(), 3)
+    prob_left_run_lowerci = round(random.random(), 3)
+    prob_middle_run = round(random.random(), 3)
+    prob_middle_run_upperci = round(random.random(), 3)
+    prob_middle_run_lowerci = round(random.random(), 3)
+    prob_right_run = round(random.random(), 3)
+    prob_right_run_upperci = round(random.random(), 3)
+    prob_right_run_lowerci = round(random.random(), 3)
+
+    # Build Output Dictionary
+    f = {
+        'prob_short_pass': prob_short_pass,
+        'prob_short_pass_upperci': prob_short_pass_upperci,
+        'prob_short_pass_lowerci': prob_short_pass_lowerci,
+        'prob_long_pass': prob_long_pass,
+        'prob_long_pass_upperci': prob_long_pass_upperci,
+        'prob_long_pass_lowerci': prob_long_pass_lowerci,
+        'prob_left_run': prob_left_run,
+        'prob_left_run_upperci': prob_left_run_upperci,
+        'prob_left_run_lowerci': prob_left_run_lowerci,
+        'prob_middle_run': prob_middle_run,
+        'prob_middle_run_upperci': prob_middle_run_upperci,
+        'prob_middle_run_lowerci': prob_middle_run_lowerci,
+        'prob_right_run': prob_right_run,
+        'prob_right_run_upperci': prob_right_run_upperci,
+        'prob_right_run_lowerci': prob_right_run_lowerci
+    }
+    return json.dumps(f)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
