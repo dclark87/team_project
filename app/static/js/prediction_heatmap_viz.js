@@ -1,3 +1,18 @@
+d3.json('/get-data', function(err, data){
+        console.log("initialized data")
+        console.log(data)
+        if (err) console.warn(err);
+        data1 = []
+        data1.push({ group: "LEFT", variable: "RUN", value: parseFloat(data['prob_left_run']) })
+        data1.push({ group: "MIDDLE", variable: "RUN", value: parseFloat(data['prob_middle_run']) })
+        data1.push({ group: "RIGHT", variable: "RUN", value: parseFloat(data['prob_right_run']) })
+        data1.push({ group: "LEFT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "LEFT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+
 // set the dimensions and margins of the graph
 var margin = {top: 40, right: 0, bottom: 30, left: 100},
   width = 800 - margin.left - margin.right,
@@ -17,48 +32,26 @@ var svg_h = d3.select("#heatmap_viz")
                     "translate(" + margin.left + "," + margin.top + ")");
 var box_stroke_width = 1
 var legendWidth = Math.min(width*0.8, 400);
-var x
-var y
-var dataMin
-var dataMax
-var myColor
-var mouseover
-var mousemove
-var mouseleave
-var boxes
-var myGroups, myVars, data1
+var x, y, dataMin, dataMax, myColor, mouseover, mousemove, mouseleave, boxes, myGroups, myVars
 
-//temp data
 function makeData(){
-data1 = [{group: "LEFT", variable: "RUN", value: Math.random()},
-{group: "MIDDLE", variable: "RUN", value: Math.random()},
-{group: "RIGHT", variable: "RUN", value: Math.random()},
-{group: "LEFT", variable: "Pass (Short)", value: Math.random()},
-{group: "MIDDLE", variable: "Pass (Short)", value: Math.random()},
-{group: "RIGHT", variable: "Pass (Short)", value: Math.random()},
-{group: "LEFT", variable: "Pass (Long)", value: Math.random()},
-{group: "MIDDLE", variable: "Pass (Long)", value: Math.random()},
-{group: "RIGHT", variable: "Pass (Long)", value: Math.random()}]
 
-dataMin = d3.min(data1, function(d) {return d.value})
-dataMax = d3.max(data1, function(d) {return d.value})
+    dataMin = d3.min(data1, function(d) {return d.value})
+    dataMax = d3.max(data1, function(d) {return d.value})
 
-// Build color scale
-myColor = d3.scaleSequential()
-    .domain([dataMin, dataMax])
-    .interpolator(d3.interpolate("#1034A6", "#F62D2D"));
+    // Build color scale
+    myColor = d3.scaleSequential()
+        .domain([dataMin, dataMax])
+        .interpolator(d3.interpolate("#1034A6", "#F62D2D"));
 }
 
 //Read the data
 // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
 createField()
-
 makeData()
 createAxes(data1)
 createLegend(data1)
 createHeatmap(svg_h, data1)
-
-
 
 //create Axes
 function createAxes(predictions){
@@ -117,7 +110,7 @@ function createAxes(predictions){
     }
     mousemove = function(d) {
     tooltip
-      .html("The predicted probability <br> of a " + d.variable + " to the " + d.group.toLowerCase() + " is: " + d.value)
+      .html("The predicted probability <br> of a " + d.variable + " to the " + d.group.toLowerCase() + " is: " + parseFloat(d.value).toFixed(4))
       .style("left", (d3.mouse(this)[0]+100) + "px")
       .style("top", (d3.mouse(this)[1]+50) + "px")
     }
@@ -153,6 +146,22 @@ function createHeatmap(selection, predictions) {
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
     boxes
+        .exit().remove()
+
+    boxes_text = svg_h.selectAll('.box_text')
+        .data(predictions, function(d) {return d.group+':'+d.variable+':'+d.value;});
+    boxes_text
+        .enter()
+            .append("text")
+            .attr("class", 'box_text')
+            .style("fill", "black")
+            .style("font-weight", "bold")
+            .style("opacity", .5)
+            .style('font-size', '12px')
+            .attr("x", function(d) { return x(d.group)+100})
+            .attr("y", function(d) { return y(d.variable)+15})
+            .text(function(d){return parseFloat(d.value).toFixed(2)})
+    boxes_text
         .exit().remove()
 }
 
@@ -234,13 +243,13 @@ legendsvg.append("g")
 }
 
 function updateLegend(predictions){
-    console.log("updateLegend ran")
+    //console.log("updateLegend ran")
     //Set scale for legend x-axis
     var newScale = d3.scaleLinear()
          .range([-legendWidth/2, legendWidth/2])
          .domain([ dataMin, dataMax] );
-    console.log(dataMin + " = min & max = " + dataMax)
-    console.log(data1)
+    //console.log(dataMin + " = min & max = " + dataMax)
+    //console.log(data1)
     //Define x-axis for the legend
     var newAxis = d3.axisBottom()
           .tickSize(0)
@@ -465,12 +474,30 @@ d3.select('#submit')
         .on('click', updateHeatMap);
 
 function updateHeatMap(){
+
+d3.json('/get-data', function(err, data){
+        console.log("data raw")
+        console.log(data)
+        if (err) console.warn(err);
+        data1 = []
+        data1.push({ group: "LEFT", variable: "RUN", value: parseFloat(data['prob_left_run']) })
+        data1.push({ group: "MIDDLE", variable: "RUN", value: parseFloat(data['prob_middle_run']) })
+        data1.push({ group: "RIGHT", variable: "RUN", value: parseFloat(data['prob_right_run']) })
+        data1.push({ group: "LEFT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
+        data1.push({ group: "LEFT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+
     updateYardLines()
     makeData()
+    createAxes(data1)
     createHeatmap(svg_h, data1)
     updateLegend(data1)
-    console.log("test")
-    //updateHeatmap(svg_h, updateData())
+    console.log("Show Data")
+    console.log(data1)
+    })
 }
 //function to update the yard line numbers
 function updateYardLines() {
@@ -503,3 +530,5 @@ function wrap(text, width) {
     }
   });
 }
+
+})
