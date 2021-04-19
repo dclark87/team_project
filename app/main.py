@@ -74,6 +74,97 @@ def index():
 
 @app.route('/get-data', methods=['POST', 'GET'])
 def returnProdData():
+
+    # Import User Request Values
+    form_input_dict = request.form.to_dict()
+    print("User Submitted Form: ", form_input_dict)
+
+    # Down
+    down = int(form_input_dict['selectDown'])
+
+    # Quarter
+    quarter = int(form_input_dict['selectQuarter'])
+
+    # Huddle vs No Huddle
+    no_huddle = 0 if form_input_dict['NoHuddle'] == 'Huddle' else 1
+
+    # Goal to Go
+    goaltogo = 1 if form_input_dict['goaltogo'] == 'True' else 0
+
+    # Starting Position
+    sp = int(form_input_dict['startingposition'])
+
+    # Defensive Score
+    defensive_score = int(form_input_dict['inputDefenseScore'])
+
+    # Offensive Score
+    offensive_score = int(form_input_dict['inputOffenseScore'])
+
+    # Score Differential
+    score_differential = offensive_score - defensive_score
+
+    # Yards to Go
+    yards_to_go = int(form_input_dict['inputDistance'])
+
+    # Time Remaining_in_quarter
+    time_remaining_quarter = form_input_dict['timeremaining']
+
+    # Offensive Timeouts Remaining
+    offensive_timeouts_remaining = int(form_input_dict['timeoutsremaining'])
+
+    # quarter_seconds_remaining
+    minutes_in_quarter = int(time_remaining_quarter.split(':')[0])
+    seconds_in_minute = int(time_remaining_quarter.split(':')[1])
+    seconds_remaining_in_quarter = minutes_in_quarter*60 + seconds_in_minute
+
+    # half_seconds_remaining
+    if quarter == 2 or quarter == 4:
+       half_seconds_remaining = seconds_remaining_in_quarter
+    else:
+        half_seconds_remaining = seconds_remaining_in_quarter + 900
+
+    # Game Seconds Remaining:
+    if quarter == 3 or quarter == 4:
+        game_seconds_remaining = half_seconds_remaining
+    else:
+        game_seconds_remaining = half_seconds_remaining + 1800
+
+    # Create List of Data
+    data = [[down,
+             no_huddle,
+             goaltogo,
+             sp,
+             defensive_score,
+             half_seconds_remaining,
+             seconds_remaining_in_quarter,
+             offensive_timeouts_remaining,
+             score_differential,
+             offensive_score,
+             game_seconds_remaining,
+             yards_to_go]]
+    data_frame = pd.DataFrame(data, columns=col_names)
+
+    # Encoder
+    x_enc = encoder.transform(data_frame[data_frame.columns[0:2]])
+    x_enc = x_enc.toarray()
+
+    # Concatenate
+    data_frame = np.array(data_frame[[col for col in data_frame.columns if col not in data_frame.columns[0:2]]])
+    x_prediction = np.concatenate([data_frame, x_enc[:, 2::]], axis=1)
+    x_prediction[np.where(np.isnan(x_prediction))] = 0
+
+    # Prediction
+    prediction_score = 0
+    for key, value in model_dict.items():
+        print("Predicting Play Type with Model: ", key)
+        prediction = value.predict(x_prediction)[0]
+        prediction_score += prediction
+        print("Prediction: ", prediction)
+
+    # Calculate Final Prediction
+    pass_prediction = round(prediction_score/len(model_dict), 3)
+    run_prediction = round(1-pass_prediction, 3)
+
     # Build Output Dictionary
     ############
     ### TEST ###
@@ -114,6 +205,10 @@ def returnProdData():
         'prob_right_run_upperci': prob_right_run_upperci,
         'prob_right_run_lowerci': prob_right_run_lowerci
     }
+    # Print to Console
+    for key, value in f.items():
+        print(key, value)
+
     return json.dumps(f)
 
 if __name__ == '__main__':
