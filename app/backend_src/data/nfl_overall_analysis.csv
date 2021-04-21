@@ -1,4 +1,4 @@
-qtr,down,play_type,pass_length_numerical_mean,pass_length_numerical_count,pass_length_numerical,pass_location_numerical_mean,pass_location_numerical_count,pass_location_numerical_std,run_location_numerical_mean,run_location_numerical_count,run_location_numerical_std
+qtr,down,play_type,pass_length_numerical_mean,pass_length_numerical_count,pass_length_numerical_std,pass_location_numerical_mean,pass_location_numerical_count,pass_location_numerical_std,run_location_numerical_mean,run_location_numerical_count,run_location_numerical_std
 1,1,pass,0.769750739,14202,0.421007148,0.55446416,14202,0.448269052,1,14202,0
 1,1,run,0,18614,0,1,18614,0,0.50196089,18614,0.436949125
 1,2,pass,0.812628907,12606,0.39022461,0.541527844,12606,0.447524831,1,12606,0

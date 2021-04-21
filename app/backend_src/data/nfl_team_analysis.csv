@@ -1,4 +1,4 @@
-posteam,qtr,down,play_type,pass_length_numerical_mean,pass_length_numerical_count,pass_length_numerical,pass_location_numerical_mean,pass_location_numerical_count,pass_location_numerical_std,run_location_numerical_mean,run_location_numerical_count,run_location_numerical_std
+posteam,qtr,down,play_type,pass_length_numerical_mean,pass_length_numerical_count,pass_length_numerical_std,pass_location_numerical_mean,pass_location_numerical_count,pass_location_numerical_std,run_location_numerical_mean,run_location_numerical_count,run_location_numerical_std
 ARI,1,1,pass,0.723684211,456,0.447666012,0.543859649,456,0.445052922,1,456,0
 ARI,1,1,run,0,603,0,1,603,0,0.49668325,603,0.411611706
 ARI,1,2,pass,0.820197044,406,0.384497056,0.509852217,406,0.452593599,1,406,0

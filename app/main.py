@@ -102,7 +102,10 @@ def generatePrediction():
     # Selected Model
     selected_model = form_input_dict['selectModel']
 
-    # Down
+    # Selected Team
+    selected_team = form_input_dict['options']
+
+     # Down
     down = int(form_input_dict['selectDown'])
 
     # Quarter
@@ -176,12 +179,16 @@ def generatePrediction():
     x_prediction = np.concatenate([data_frame, x_enc[:, 2::]], axis=1)
     x_prediction[np.where(np.isnan(x_prediction))] = 0
 
-    # Prediction
+    ##################
+    ### Prediction ###
+    pass_prediction_average = 0
+    pass_lower_ci_average = 0
+    pass_upper_ci_average = 0
+    run_prediction_average = 0
+    run_lower_ci_average = 0
+    run_upper_ci_average = 0
     if selected_model == 'default':
         print("Preparing Optimized Model ... ")
-        prediction_average = 0
-        lower_ci_average = 0
-        upper_ci_average = 0
         for key, model in model_dict.items():
             print("Predicting Play Type with Model: ", key)
             prediction = model.predict(x_prediction)[0]
@@ -194,21 +201,57 @@ def generatePrediction():
                     play = 'run'
                 else:
                     play = 'pass'
-            probability = model.predict_proba(x_prediction)[0][prediction]
-            ci = confidence_intervals[key][play]
-            prediction_average += probability
-            lower_ci_average += ci[0]
-            upper_ci_average = ci[1]
-            print("Prediction: ", prediction)
-            print("Probability: ", probability)
-            print("Confidence Interval: ", ci)
-        prediction_average = prediction_average/len(model_dict)
-        lower_ci_average = lower_ci_average/len(model_dict)
-        upper_ci_average = upper_ci_average/len(model_dict)
-        print("Optimized Final Results: ")
-        print("prediction_average: ", prediction_average)
-        print("lower_ci_average: ", lower_ci_average)
-        print("upper_ci_average: ", upper_ci_average)
+            if prediction == 0:
+                pass_prediction = prediction
+                pass_probability = model.predict_proba(x_prediction)[0][pass_prediction]
+                pass_ci = confidence_intervals[key][play]
+                pass_prediction_average += pass_probability
+                pass_lower_ci_average += pass_ci[0]
+                pass_upper_ci_average += pass_ci[1]
+                print("Prediction for Pass: ", prediction)
+                print("Probability for Pass: ", pass_probability)
+                print("Confidence Interval for Pass: ", pass_ci)
+
+                # Inverse for Run Prediction
+                run_prediction_average += 1 - pass_probability
+                run_lower_ci_average += 1 - pass_ci[0]
+                run_upper_ci_average += 1 - pass_ci[1]
+
+            else:
+                run_prediction = prediction
+                run_probability = model.predict_proba(x_prediction)[0][run_prediction]
+                run_ci = confidence_intervals[key][play]
+                run_prediction_average += run_probability
+                run_lower_ci_average += run_ci[0]
+                run_upper_ci_average += run_ci[1]
+                print("Prediction for Run: ", prediction)
+                print("Probability for Run: ", run_probability)
+                print("Confidence Interval for Run: ", run_ci)
+
+                # Inverse for Run Prediction
+                pass_prediction_average += 1 - run_probability
+                run_lower_ci_average += 1 - run_ci[0]
+                run_upper_ci_average += 1 - run_ci[1]
+
+        pass_prediction_average = pass_prediction_average/len(model_dict)
+        pass_lower_ci_average = pass_lower_ci_average/len(model_dict)
+        pass_upper_ci_average = pass_upper_ci_average/len(model_dict)
+        run_prediction_average = run_prediction_average/len(model_dict)
+        run_lower_ci_average = run_lower_ci_average/len(model_dict)
+        run_upper_ci_average = run_upper_ci_average/len(model_dict)
+
+        # Pass
+        print("Optimized Final Results for Pass: ")
+        print("prediction_average: ", pass_prediction_average)
+        print("lower_ci_average: ", pass_lower_ci_average)
+        print("upper_ci_average: ", pass_upper_ci_average)
+
+        # Run
+        print("Optimized Final Results for Run: ")
+        print("prediction_average: ", run_prediction_average)
+        print("lower_ci_average: ", run_lower_ci_average)
+        print("upper_ci_average: ", run_upper_ci_average)
+
     else:
         print("User has selected model: ", selected_model)
         model = model_dict[selected_model]
@@ -222,59 +265,180 @@ def generatePrediction():
                 play = 'run'
             else:
                 play = 'pass'
-        probability = model.predict_proba(x_prediction)[0][prediction]
-        ci = confidence_intervals[selected_model][play]
-        prediction_average = probability
-        lower_ci_average = ci[0]
-        upper_ci_average = ci[1]
-        print("Model Final Results: ")
-        print("prediction_average: ", prediction_average)
-        print("lower_ci_average: ", lower_ci_average)
-        print("upper_ci_average: ", upper_ci_average)
+        if prediction == 0:
+            pass_prediction = prediction
+            pass_probability = model.predict_proba(x_prediction)[0][pass_prediction]
+            pass_ci = confidence_intervals[selected_model][play]
+            pass_prediction_average = pass_probability
+            pass_lower_ci_average = pass_ci[0]
+            pass_upper_ci_average = pass_ci[1]
+            print("Prediction for Pass: ", prediction)
+            print("Probability for Pass: ", pass_probability)
+            print("Confidence Interval for Pass: ", pass_ci)
+
+            # Inverse for Run Prediction
+            run_prediction_average += 1 - pass_probability
+            run_lower_ci_average += 1 - pass_ci[0]
+            run_upper_ci_average += 1 - pass_ci[1]
+
+        else:
+            run_prediction = prediction
+            run_probability = model.predict_proba(x_prediction)[0][run_prediction]
+            run_ci = confidence_intervals[selected_model][play]
+            run_prediction_average = run_probability
+            run_lower_ci_average = run_ci[0]
+            run_upper_ci_average = run_ci[1]
+            print("Prediction for Run: ", prediction)
+            print("Probability for Run: ", run_probability)
+            print("Confidence Interval for Run: ", run_ci)
+
+            # Inverse for Run Prediction
+            pass_prediction_average += 1 - run_probability
+            run_lower_ci_average += 1 - run_ci[0]
+            run_upper_ci_average += 1 - run_ci[1]
+
+        # Pass
+        print("Optimized Final Results for Pass: ")
+        print("prediction_average: ", pass_prediction_average)
+        print("lower_ci_average: ", pass_lower_ci_average)
+        print("upper_ci_average: ", pass_upper_ci_average)
+
+        # Run
+        print("Optimized Final Results for Run: ")
+        print("prediction_average: ", run_prediction_average)
+        print("lower_ci_average: ", run_lower_ci_average)
+        print("upper_ci_average: ", run_upper_ci_average)
 
     # Build Output Dictionary
-    ############
-    # Select the model which will output probabilities
+    print("Generating Proabilities for selected team: ", selected_team)
 
+    if selected_team == 'nfl':
+        qtr_mask = nfl_df_overall['qtr'] == quarter
+        down_mask = nfl_df_overall['down'] == down
+        pass_mask = nfl_df_overall['play_type'] == 'pass'
+        run_mask = nfl_df_overall['play_type'] == 'run'
 
-    ### TEST ###
-    # Below are DUMMY Numbers
-    # Test (Demo) Full Prediction Results
-    import random
-    prob_short_pass = round(random.random(), 3)
-    prob_short_pass_upperci = round(random.random(), 3)
-    prob_short_pass_lowerci = round(random.random(), 3)
-    prob_long_pass = round(random.random(), 3)
-    prob_long_pass_upperci = round(random.random(), 3)
-    prob_long_pass_lowerci = round(random.random(), 3)
-    prob_left_run = round(random.random(), 3)
-    prob_left_run_upperci = round(random.random(), 3)
-    prob_left_run_lowerci = round(random.random(), 3)
-    prob_middle_run = round(random.random(), 3)
-    prob_middle_run_upperci = round(random.random(), 3)
-    prob_middle_run_lowerci = round(random.random(), 3)
-    prob_right_run = round(random.random(), 3)
-    prob_right_run_upperci = round(random.random(), 3)
-    prob_right_run_lowerci = round(random.random(), 3)
+        # Pass Length Probability
+        pass_length_numerical_mean = \
+        nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_mean'].values[0]
+        pass_length_numerical_std = \
+        nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_std'].values[0]
+        if pass_length_numerical_mean >= 0.5:
+            long_pass_probability = pass_length_numerical_mean
+            short_pass_probability = 1 - pass_length_numerical_mean
+        else:
+            short_pass_probability = pass_length_numerical_mean
+            long_pass_probability = 1 - short_pass_probability
 
-    # Build Output Dictionary
+        # Pass Location Probability
+        pass_location_numerical_mean = nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_location_numerical_mean'].values[0]
+        pass_location_numerical_std = nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_location_numerical_std'].values[0]
+        if pass_location_numerical_mean > 0.5:
+            middle_pass_probability = pass_location_numerical_mean
+            left_pass_probability = pass_location_numerical_std / 1.7
+            right_pass_probability = pass_location_numerical_std / 2.3
+        else:
+            middle_pass_probability = pass_location_numerical_mean
+            left_pass_probability = pass_location_numerical_std / 2.3
+            right_pass_probability = pass_location_numerical_std / 1.7
+
+        # Run Location Probability
+        run_location_numerical_mean = nfl_df_overall[qtr_mask & down_mask & run_mask]['run_location_numerical_mean'].values[0]
+        run_location_numerical_std = nfl_df_overall[qtr_mask & down_mask & run_mask]['run_location_numerical_std'].values[0]
+        if run_location_numerical_mean > 0.5:
+            middle_pass_probability = run_location_numerical_mean
+            left_run_probability = run_location_numerical_std / 1.7
+            right_run_probability = run_location_numerical_std / 2.3
+        else:
+            run_location_numerical_mean = run_location_numerical_mean
+            left_run_probability = run_location_numerical_std / 2.3
+            right_run_probability = run_location_numerical_std / 1.7
+
+    else:
+        pos_team_mask = nfl_df_team_view['posteam'] == str.upper(selected_team)
+        qtr_mask = nfl_df_team_view['qtr'] == quarter
+        down_mask = nfl_df_team_view['down'] == down
+        pass_mask = nfl_df_team_view['play_type'] == 'pass'
+        run_mask = nfl_df_team_view['play_type'] == 'run'
+
+        # Pass Length Probability
+        pass_length_numerical_mean = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & pass_mask]['pass_length_numerical_mean'].values[0]
+        pass_length_numerical_std = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & pass_mask]['pass_length_numerical_std'].values[0]
+        if pass_length_numerical_mean >= 0.5:
+            long_pass_probability = pass_length_numerical_mean
+            short_pass_probability = 1 - pass_length_numerical_mean
+        else:
+            short_pass_probability = pass_length_numerical_mean
+            long_pass_probability = 1 - short_pass_probability
+
+        # Pass Location Probability
+        pass_location_numerical_mean = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & pass_mask]['pass_location_numerical_mean'].values[0]
+        pass_location_numerical_std = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & pass_mask]['pass_location_numerical_std'].values[0]
+        if pass_location_numerical_mean > 0.5:
+            middle_pass_probability = pass_location_numerical_mean
+            left_pass_probability = pass_location_numerical_std/1.7
+            right_pass_probability = pass_location_numerical_std/2.3
+        else:
+            middle_pass_probability = pass_location_numerical_mean
+            left_pass_probability = pass_location_numerical_std/2.3
+            right_pass_probability = pass_location_numerical_std/1.7
+
+        # Run Location Probability
+        run_location_numerical_mean = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & run_mask]['run_location_numerical_mean'].values[0]
+        run_location_numerical_std = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & run_mask]['run_location_numerical_std'].values[0]
+        if run_location_numerical_mean > 0.5:
+            middle_pass_probability = run_location_numerical_mean
+            left_run_probability = run_location_numerical_std/1.7
+            right_run_probability = run_location_numerical_std/2.3
+        else:
+            run_location_numerical_mean = run_location_numerical_mean
+            left_run_probability = run_location_numerical_std/2.3
+            right_run_probability = run_location_numerical_std/1.7
+
+    # Integrate Model Output with Dataframe Historical Data
+    print("Initalizing Output Dictionary ... ")
     f = {
-        'prob_short_pass': prob_short_pass,
-        'prob_short_pass_upperci': prob_short_pass_upperci,
-        'prob_short_pass_lowerci': prob_short_pass_lowerci,
-        'prob_long_pass': prob_long_pass,
-        'prob_long_pass_upperci': prob_long_pass_upperci,
-        'prob_long_pass_lowerci': prob_long_pass_lowerci,
-        'prob_left_run': prob_left_run,
-        'prob_left_run_upperci': prob_left_run_upperci,
-        'prob_left_run_lowerci': prob_left_run_lowerci,
-        'prob_middle_run': prob_middle_run,
-        'prob_middle_run_upperci': prob_middle_run_upperci,
-        'prob_middle_run_lowerci': prob_middle_run_lowerci,
-        'prob_right_run': prob_right_run,
-        'prob_right_run_upperci': prob_right_run_upperci,
-        'prob_right_run_lowerci': prob_right_run_lowerci
+        'prob_pass': pass_prediction_average,
+        'prob_pass_upper_ci': pass_upper_ci_average,
+        'prob_pass_lower_ci': pass_lower_ci_average,
+        'prob_run': run_prediction_average,
+        'prob_run_upper_ci': run_upper_ci_average,
+        'prob_run_lower_ci': run_lower_ci_average,
+        'prob_short_pass': short_pass_probability * pass_prediction_average,
+        'prob_short_pass_upperci': short_pass_probability * pass_upper_ci_average,
+        'prob_short_pass_lowerci': short_pass_probability * pass_lower_ci_average,
+        'prob_long_pass': long_pass_probability * pass_prediction_average,
+        'prob_long_pass_upperci': long_pass_probability * pass_upper_ci_average,
+        'prob_long_pass_lowerci': long_pass_probability * pass_lower_ci_average,
+        'prob_short_left_pass': short_pass_probability * left_pass_probability * pass_prediction_average,
+        'prob_short_left_pass_upperci': short_pass_probability * left_pass_probability * pass_upper_ci_average,
+        'prob_short_left_pass_lowerci': short_pass_probability * left_pass_probability * pass_lower_ci_average,
+        'prob_short_middle_pass': short_pass_probability * middle_pass_probability * pass_prediction_average,
+        'prob_short_middle_pass_upperci': short_pass_probability * middle_pass_probability * pass_upper_ci_average,
+        'prob_short_middle_pass_lowerci': short_pass_probability * middle_pass_probability * pass_lower_ci_average,
+        'prob_short_right_pass': short_pass_probability * right_pass_probability * pass_prediction_average,
+        'prob_short_right_pass_upperci': short_pass_probability * right_pass_probability * pass_upper_ci_average,
+        'prob_short_right_pass_lowerci': short_pass_probability * right_pass_probability * pass_lower_ci_average,
+        'prob_long_left_pass': long_pass_probability * left_pass_probability * pass_prediction_average,
+        'prob_long_left_pass_upperci': long_pass_probability * left_pass_probability * pass_upper_ci_average,
+        'prob_long_left_pass_lowerci': long_pass_probability * left_pass_probability * pass_lower_ci_average,
+        'prob_long_middle_pass': long_pass_probability * middle_pass_probability * pass_prediction_average,
+        'prob_long_middle_pass_upperci': long_pass_probability * middle_pass_probability * pass_upper_ci_average,
+        'prob_long_middle_pass_lowerci': long_pass_probability * middle_pass_probability * pass_lower_ci_average,
+        'prob_long_right_pass': long_pass_probability * right_pass_probability * pass_prediction_average,
+        'prob_long_right_pass_upperci': long_pass_probability * right_pass_probability * pass_upper_ci_average,
+        'prob_long_right_pass_lowerci': long_pass_probability * right_pass_probability * pass_lower_ci_average,
+        'prob_left_run': run_prediction_average * left_run_probability,
+        'prob_left_run_upperci': run_upper_ci_average * left_run_probability,
+        'prob_left_run_lowerci': run_lower_ci_average * left_run_probability,
+        'prob_middle_run': run_prediction_average * left_run_probability,
+        'prob_middle_run_upperci': run_upper_ci_average * left_run_probability,
+        'prob_middle_run_lowerci': run_lower_ci_average * left_run_probability,
+        'prob_right_run': run_prediction_average * left_run_probability,
+        'prob_right_run_upperci': run_upper_ci_average * left_run_probability,
+        'prob_right_run_lowerci': run_lower_ci_average * left_run_probability,
     }
+
     # Print to Console
     for key, value in f.items():
         print(key, value)
