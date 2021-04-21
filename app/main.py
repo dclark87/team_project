@@ -431,12 +431,12 @@ def generatePrediction():
         'prob_left_run': run_prediction_average * left_run_probability,
         'prob_left_run_upperci': run_upper_ci_average * left_run_probability,
         'prob_left_run_lowerci': run_lower_ci_average * left_run_probability,
-        'prob_middle_run': run_prediction_average * left_run_probability,
-        'prob_middle_run_upperci': run_upper_ci_average * left_run_probability,
-        'prob_middle_run_lowerci': run_lower_ci_average * left_run_probability,
-        'prob_right_run': run_prediction_average * left_run_probability,
-        'prob_right_run_upperci': run_upper_ci_average * left_run_probability,
-        'prob_right_run_lowerci': run_lower_ci_average * left_run_probability,
+        'prob_middle_run': run_prediction_average * middle_pass_probability,
+        'prob_middle_run_upperci': run_upper_ci_average * middle_pass_probability,
+        'prob_middle_run_lowerci': run_lower_ci_average * middle_pass_probability,
+        'prob_right_run': run_prediction_average * right_run_probability,
+        'prob_right_run_upperci': run_upper_ci_average * right_run_probability,
+        'prob_right_run_lowerci': run_lower_ci_average * right_run_probability,
     }
 
     # Print to Console
