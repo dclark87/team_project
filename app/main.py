@@ -32,11 +32,9 @@ rf_model = joblib.load('./backend_src/notebooks/joblibs/rf.joblib')
 knn_model = joblib.load('./backend_src/notebooks/joblibs/knn.joblib')
 logit_model = joblib.load('./backend_src/notebooks/joblibs/logit.joblib')
 nn_model = joblib.load('./backend_src/notebooks/joblibs/nn.joblib')
-rbf_model = joblib.load('./backend_src/notebooks/joblibs/rbf.joblib')
-svm_model = joblib.load('./backend_src/notebooks/joblibs/svm.joblib')
 print("Models Imported Successfully")
 
-#import confidence intervals
+# Import confidence intervals
 confidence_intervals = joblib.load('./backend_src/notebooks/joblibs/confidence_intervals.joblib')
 
 # Model Dictionary
@@ -177,11 +175,20 @@ def generatePrediction():
 
     # Prediction
     prediction_score = 0
-    for key, value in model_dict.items():
+    print("X Prediction Array: ", x_prediction)
+    for key, model in model_dict.items():
         print("Predicting Play Type with Model: ", key)
-        prediction = value.predict(x_prediction)[0]
-        prediction_score += prediction
+        prediction = model.predict(x_prediction)[0]
         print("Prediction: ", prediction)
+        probability = model.predict_proba(x_prediction)[prediction]
+        if prediction == 'run':
+            play = 'run'
+        else:
+            play = 'pass'
+        ci = confidence_intervals[model][play]
+        print("Prediction: ", prediction)
+        print("Probability: ", probability)
+        print("Confidence Interval: ", probability)
     
     # Calculate Final Prediction
     pass_prediction = round(prediction_score/len(model_dict), 3)
@@ -190,20 +197,11 @@ def generatePrediction():
     # Build Output Dictionary
     ############
     # Select the model which will output probabilities
-    #model = model_dict[item]
-    #prediction = model.predict(x_prediction)[0]
-    #probability = model.predict_proba(x_prediction)[prediction]
-    # Grab confidence interval for model
-    if prediction:
-        play = 'run'
-    else:
-        play = 'pass'
-    ci = confidence_intervals[model][play]
+
 
     ### TEST ###
     # Below are DUMMY Numbers
-    # Test (Demo) Full Prediction Results 
-    
+    # Test (Demo) Full Prediction Results
     import random
     prob_short_pass = round(random.random(), 3)
     prob_short_pass_upperci = round(random.random(), 3)
@@ -248,10 +246,9 @@ def generatePrediction():
 
 @app.route('/get-data', methods=['POST', 'GET'])
 def returnData():
+
     # Build Output Dictionary
-
     return json.dumps(viz_data)
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
