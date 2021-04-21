@@ -21,6 +21,8 @@
     <link href="/static/css/sb-admin-2.css" rel="stylesheet">
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -146,7 +148,7 @@
                     </div>
 
 
-                    <form class="form-horizontal" method="post" onSubmit="showPage()"><!-- action="/analysis' -->
+                    <form class="form-horizontal" method="POST" action="/analysis" id="form1" >
                     <fieldset>
                     <!-- NFL Team Selector Row -->
 
@@ -154,9 +156,9 @@
                         <!-- NFL Team Selector -->
                             <!-- NFL Team Icons -->
                         <div class="h8">Select the Offense</div>
-                            <div class="btn-group col" style="margin-bottom: 10px;" data-toggle="buttons">
+                            <div class="btn-group btn-group-toggle col" style="margin-bottom: 10px;" data-toggle="buttons">
                               <label class="btn btn-nfl" title="All Teams">
-                                <input type="radio" title="All Teams" name="options" id="all-teams" value="nfl" checked="checked">
+                                <input type="radio" title="All Teams" name="options" id="all-teams" value="nfl" >
                                   <img src="/static/img/nfl-logos/nfl-logo.gif" width="30">
                               </label>
                               <label class="btn btn-nfl">
@@ -461,7 +463,7 @@
                                         </div>
                                       <div class="col-sm-5">
                                             <label class="control-label" for="submit"></label>
-                                            <button id="submit" name="submit" type="button" class="btn btn-primary">Generate Prediction</button>
+                                            <button id="submit" name="submit" type="submit" class="btn btn-primary">Generate Prediction</button>
                                       </div>
                                     </div>
 
