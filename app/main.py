@@ -4,7 +4,7 @@ from flask import render_template
 app=Flask(__name__)
 #############################################
 ############    IMPORTS    ##################
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 import pandas as pd
 import numpy as np
 import warnings
@@ -66,14 +66,33 @@ nfl_df_team_view = pd.read_csv('./backend_src/data/nfl_team_analysis.csv', low_m
 print("Data imported Successfully")
 print("\nFlask App Configuration Complete\n")
 
+## Data Store
+viz_data = {
+            'prob_short_pass': .0,
+            'prob_short_pass_upperci': .0,
+            'prob_short_pass_lowerci': .0,
+            'prob_long_pass': .0,
+            'prob_long_pass_upperci': .0,
+            'prob_long_pass_lowerci': .0,
+            'prob_left_run':  .0,
+            'prob_left_run_upperci': .0,
+            'prob_left_run_lowerci': .0,
+            'prob_middle_run': .0,
+            'prob_middle_run_upperci': .0,
+            'prob_middle_run_lowerci': .0,
+            'prob_right_run': .0,
+            'prob_right_run_upperci': .0,
+            'prob_right_run_lowerci': .0
+        }
+
 #####################################
 ##### HOME ROUTE (Initial Route #####
 @app.route('/')
 def index():
         return render_template('index.html')
 
-@app.route('/get-data', methods=['POST', 'GET'])
-def returnProdData():
+@app.route('/analysis', methods=['POST', 'GET'])
+def generatePrediction():
 
     # Import User Request Values
     form_input_dict = request.form.to_dict()
@@ -208,8 +227,16 @@ def returnProdData():
     # Print to Console
     for key, value in f.items():
         print(key, value)
+    global viz_data
+    viz_data = f
+    return render_template('index.html')
 
-    return json.dumps(f)
+@app.route('/get-data', methods=['POST', 'GET'])
+def returnData():
+    # Build Output Dictionary
+
+    return json.dumps(viz_data)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
