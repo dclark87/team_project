@@ -119,7 +119,7 @@ function createAxes(predictions){
       .style("opacity", 0)
     d3.select(this)
       .style("stroke-width", box_stroke_width)
-      .style("opacity", 0.8)
+      .style("opacity", function(d) { if (d.value == 0){ return 0.25} else {return 0.8} })
     }
 
   }
@@ -140,7 +140,7 @@ function createHeatmap(selection, predictions) {
             .attr("height", y.bandwidth() )
             .style("stroke-width", box_stroke_width)
             .style("stroke", "black")
-            .style("opacity", 0.8)
+            .style("opacity", function(d) { if (d.value == 0) {return .25} else {return 0.8}})
             .style("fill", function(d) { return myColor(d.value)} )
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
