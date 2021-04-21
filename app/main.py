@@ -1,4 +1,4 @@
-# Basic flask application
+# Basic flask application 
 from flask import Flask
 from flask import render_template
 app=Flask(__name__)
@@ -27,7 +27,8 @@ print("Encoder Imported Successfully")
 
 # Model Imports
 print("Importing Machine Learning Models ... ")
-clf_model = joblib.load('./backend_src/notebooks/joblibs/clf.joblib')
+dt_model = joblib.load('./backend_src/notebooks/joblibs/dt.joblib')
+rf_model = joblib.load('./backend_src/notebooks/joblibs/rf.joblib')
 knn_model = joblib.load('./backend_src/notebooks/joblibs/knn.joblib')
 logit_model = joblib.load('./backend_src/notebooks/joblibs/logit.joblib')
 nn_model = joblib.load('./backend_src/notebooks/joblibs/nn.joblib')
@@ -35,14 +36,16 @@ rbf_model = joblib.load('./backend_src/notebooks/joblibs/rbf.joblib')
 svm_model = joblib.load('./backend_src/notebooks/joblibs/svm.joblib')
 print("Models Imported Successfully")
 
+#import confidence intervals
+confidence_intervals = joblib.load('./backend_src/notebooks/joblibs/confidence_intervals.joblib')
+
 # Model Dictionary
 model_dict = {
-    'clf_model': clf_model,
+    'dt_model': dt_model,
+    'rf_model': rf_model,
     'knn_model': knn_model,
     'logit_model': logit_model,
     'nn_model': nn_model,
-    'rbf_model': rbf_model,
-    'svm_model': svm_model
 }
 
 # Dataframe Column Names
@@ -179,16 +182,28 @@ def generatePrediction():
         prediction = value.predict(x_prediction)[0]
         prediction_score += prediction
         print("Prediction: ", prediction)
-
+    
     # Calculate Final Prediction
     pass_prediction = round(prediction_score/len(model_dict), 3)
     run_prediction = round(1-pass_prediction, 3)
 
     # Build Output Dictionary
     ############
+    # Select the model which will output probabilities
+    #model = model_dict[item]
+    #prediction = model.predict(x_prediction)[0]
+    #probability = model.predict_proba(x_prediction)[prediction]
+    # Grab confidence interval for model
+    if prediction:
+        play = 'run'
+    else:
+        play = 'pass'
+    ci = confidence_intervals[model][play]
+
     ### TEST ###
     # Below are DUMMY Numbers
-    # Test (Demo) Full Prediction Results
+    # Test (Demo) Full Prediction Results 
+    
     import random
     prob_short_pass = round(random.random(), 3)
     prob_short_pass_upperci = round(random.random(), 3)
