@@ -10701,8 +10701,9 @@ a:focus {
   border-color: #858796;
   background:white;
   background-size: cover;
-  display: inline-block;
   padding: 2px;
+  /*display: inline-block;
+*/
 }
 
 .btn-nfl:hover {
@@ -10829,7 +10830,6 @@ a:focus {
   position: relative;
   height: 10rem;
   width: 100%;
-  background-image: url('../static/img/football-field1.jpg');
   background-repeat: no-repeat;
   background-position: center;
 }
