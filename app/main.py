@@ -185,7 +185,7 @@ def generatePrediction():
             play = 'run'
         else:
             play = 'pass'
-        ci = confidence_intervals[model][play]
+        ci = confidence_intervals[key][play]
         print("Prediction: ", prediction)
         print("Probability: ", probability)
         print("Confidence Interval: ", probability)
