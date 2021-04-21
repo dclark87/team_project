@@ -180,11 +180,16 @@ def generatePrediction():
         print("Predicting Play Type with Model: ", key)
         prediction = model.predict(x_prediction)[0]
         print("Prediction: ", prediction)
-        probability = model.predict_proba(x_prediction)[prediction]
-        if prediction == 'run':
-            play = 'run'
+        if key in ['dt_model', 'rf_model']:
+            play = prediction
+            prediction = 1*(prediction == 'run')
         else:
-            play = 'pass'
+            prediction = int(prediction)    
+            if prediction:
+                play = 'run'
+            else:
+                play = 'pass'
+        probability = model.predict_proba(x_prediction)[0][prediction]
         ci = confidence_intervals[key][play]
         print("Prediction: ", prediction)
         print("Probability: ", probability)
