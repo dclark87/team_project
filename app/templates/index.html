@@ -162,7 +162,7 @@
                                   <img src="/static/img/nfl-logos/nfl-logo.gif" width="30">
                               </label>
                               <label class="btn btn-nfl">
-                                <input type="radio" name="options" id="ari" value="ari">
+                                <input type="radio" name="options" id="ari" value="stl">
                                   <img src="/static/img/nfl-logos/ari-cardinals.gif" width="30">
                               </label>
                               <label class="btn btn-nfl">
@@ -222,11 +222,11 @@
                                     <img src="/static/img/nfl-logos/jac-jaguars.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Kansas City Chiefs">
-                                    <input type="radio" name="teamSelector" id="kan", value="kan">
+                                    <input type="radio" name="teamSelector" id="kan", value="kc">
                                     <img src="/static/img/nfl-logos/kan-chiefs.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Los Angeles Rams">
-                                    <input type="radio" name="teamSelector" id="lar", value="lar">
+                                    <input type="radio" name="teamSelector" id="lar", value="la">
                                     <img src="/static/img/nfl-logos/la_rams.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Los Angeles Chargers">
@@ -234,7 +234,7 @@
                                     <img src="/static/img/nfl-logos/la-chargers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Las Vegas Raiders">
-                                    <input type="radio" name="teamSelector" id="lv", value="lv">
+                                    <input type="radio" name="teamSelector" id="lv", value="oak">
                                     <img src="/static/img/nfl-logos/lv-raiders.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Miami Dolphins">
@@ -453,12 +453,12 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <select id="selectModel" name="selectModel" class="form-control form-control-sm input-sm">
-                                              <option value="1">Gradient Boosting</option>
-                                              <option value="2">Support Vector Machine</option>
-                                              <option value="3">Random Forest</option>
-                                              <option value="4">K-Nearest Neighbors</option>
-                                              <option value="5">Naive Bayes</option>
-                                              <option value="6">Decision Tree</option>
+                                              <option value="default">Optimized <i>(Default)</i></option>
+                                              <option value="dt_model">Decision Tree</option>
+                                              <option value="knn_model">K-Nearest Neighbors</option>
+                                              <option value="logit_model">Logistic Regression</option>
+                                              <option value="nn_model">Neural Network</option>
+                                              <option value="rf_model">Random Forest</option>
                                             </select>
                                         </div>
                                       <div class="col-sm-5">

@@ -99,6 +99,9 @@ def generatePrediction():
     form_input_dict = request.form.to_dict()
     print("User Submitted Form: ", form_input_dict)
 
+    # Selected Model
+    selected_model = form_input_dict['selectModel']
+
     # Down
     down = int(form_input_dict['selectDown'])
 
@@ -174,30 +177,60 @@ def generatePrediction():
     x_prediction[np.where(np.isnan(x_prediction))] = 0
 
     # Prediction
-    prediction_score = 0
-    print("X Prediction Array: ", x_prediction)
-    for key, model in model_dict.items():
-        print("Predicting Play Type with Model: ", key)
+    if selected_model == 'default':
+        print("Preparing Optimized Model ... ")
+        prediction_average = 0
+        lower_ci_average = 0
+        upper_ci_average = 0
+        for key, model in model_dict.items():
+            print("Predicting Play Type with Model: ", key)
+            prediction = model.predict(x_prediction)[0]
+            if key in ['dt_model', 'rf_model']:
+                play = prediction
+                prediction = 1*(prediction == 'run')
+            else:
+                prediction = int(prediction)
+                if prediction:
+                    play = 'run'
+                else:
+                    play = 'pass'
+            probability = model.predict_proba(x_prediction)[0][prediction]
+            ci = confidence_intervals[key][play]
+            prediction_average += probability
+            lower_ci_average += ci[0]
+            upper_ci_average = ci[1]
+            print("Prediction: ", prediction)
+            print("Probability: ", probability)
+            print("Confidence Interval: ", ci)
+        prediction_average = prediction_average/len(model_dict)
+        lower_ci_average = lower_ci_average/len(model_dict)
+        upper_ci_average = upper_ci_average/len(model_dict)
+        print("Optimized Final Results: ")
+        print("prediction_average: ", prediction_average)
+        print("lower_ci_average: ", lower_ci_average)
+        print("upper_ci_average: ", upper_ci_average)
+    else:
+        print("User has selected model: ", selected_model)
+        model = model_dict[selected_model]
         prediction = model.predict(x_prediction)[0]
-        print("Prediction: ", prediction)
-        if key in ['dt_model', 'rf_model']:
+        if selected_model in ['dt_model', 'rf_model']:
             play = prediction
-            prediction = 1*(prediction == 'run')
+            prediction = 1 * (prediction == 'run')
         else:
-            prediction = int(prediction)    
+            prediction = int(prediction)
             if prediction:
                 play = 'run'
             else:
                 play = 'pass'
         probability = model.predict_proba(x_prediction)[0][prediction]
-        ci = confidence_intervals[key][play]
-        print("Prediction: ", prediction)
-        print("Probability: ", probability)
-        print("Confidence Interval: ", probability)
-    
-    # Calculate Final Prediction
-    pass_prediction = round(prediction_score/len(model_dict), 3)
-    run_prediction = round(1-pass_prediction, 3)
+        ci = confidence_intervals[selected_model][play]
+        prediction_average = probability
+        lower_ci_average = ci[0]
+        upper_ci_average = ci[1]
+        print("Model Final Results: ")
+        print("prediction_average: ", prediction_average)
+        print("lower_ci_average: ", lower_ci_average)
+        print("upper_ci_average: ", upper_ci_average)
 
     # Build Output Dictionary
     ############
