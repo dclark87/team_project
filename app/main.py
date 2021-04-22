@@ -8,6 +8,7 @@ from flask import Flask, request, render_template, session
 import pandas as pd
 import numpy as np
 import warnings
+from datetime import datetime
 import joblib
 import os
 import json
@@ -94,6 +95,8 @@ def index():
 
 @app.route('/analysis', methods=['POST', 'GET'])
 def generatePrediction():
+
+    start = datetime.now()
 
     # Import User Request Values
     form_input_dict = request.form.to_dict()
@@ -319,10 +322,8 @@ def generatePrediction():
         run_mask = nfl_df_overall['play_type'] == 'run'
 
         # Pass Length Probability
-        pass_length_numerical_mean = \
-        nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_mean'].values[0]
-        pass_length_numerical_std = \
-        nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_std'].values[0]
+        pass_length_numerical_mean = nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_mean'].values[0]
+        pass_length_numerical_std = nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_length_numerical_std'].values[0]
         if pass_length_numerical_mean >= 0.5:
             long_pass_probability = pass_length_numerical_mean
             short_pass_probability = 1 - pass_length_numerical_mean
@@ -335,24 +336,24 @@ def generatePrediction():
         pass_location_numerical_std = nfl_df_overall[qtr_mask & down_mask & pass_mask]['pass_location_numerical_std'].values[0]
         if pass_location_numerical_mean > 0.5:
             middle_pass_probability = pass_location_numerical_mean
-            left_pass_probability = pass_location_numerical_std / 1.7
-            right_pass_probability = pass_location_numerical_std / 2.3
+            left_pass_probability = (1- pass_location_numerical_mean) / 2
+            right_pass_probability = (1- pass_location_numerical_mean) / 2
         else:
             middle_pass_probability = pass_location_numerical_mean
-            left_pass_probability = pass_location_numerical_std / 2.3
-            right_pass_probability = pass_location_numerical_std / 1.7
+            left_pass_probability = pass_location_numerical_std / 2
+            right_pass_probability = pass_location_numerical_std / 2
 
         # Run Location Probability
         run_location_numerical_mean = nfl_df_overall[qtr_mask & down_mask & run_mask]['run_location_numerical_mean'].values[0]
         run_location_numerical_std = nfl_df_overall[qtr_mask & down_mask & run_mask]['run_location_numerical_std'].values[0]
         if run_location_numerical_mean > 0.5:
-            middle_pass_probability = run_location_numerical_mean
-            left_run_probability = run_location_numerical_std / 1.7
-            right_run_probability = run_location_numerical_std / 2.3
+            middle_run_probability = run_location_numerical_mean
+            left_run_probability = (1 - run_location_numerical_mean) / 2
+            right_run_probability = (1 - run_location_numerical_mean) / 2
         else:
-            run_location_numerical_mean = run_location_numerical_mean
-            left_run_probability = run_location_numerical_std / 2.3
-            right_run_probability = run_location_numerical_std / 1.7
+            middle_run_probability = run_location_numerical_mean
+            left_run_probability = (1 - run_location_numerical_mean) / 2
+            right_run_probability = (1 - run_location_numerical_mean) / 2
 
     else:
         pos_team_mask = nfl_df_team_view['posteam'] == str.upper(selected_team)
@@ -376,24 +377,24 @@ def generatePrediction():
         pass_location_numerical_std = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & pass_mask]['pass_location_numerical_std'].values[0]
         if pass_location_numerical_mean > 0.5:
             middle_pass_probability = pass_location_numerical_mean
-            left_pass_probability = pass_location_numerical_std/1.7
-            right_pass_probability = pass_location_numerical_std/2.3
+            left_pass_probability = (1 - pass_location_numerical_mean)/2
+            right_pass_probability = (1 - pass_location_numerical_mean)/2
         else:
             middle_pass_probability = pass_location_numerical_mean
-            left_pass_probability = pass_location_numerical_std/2.3
-            right_pass_probability = pass_location_numerical_std/1.7
+            left_pass_probability = (1 - pass_location_numerical_mean)/2
+            right_pass_probability = (1 - pass_location_numerical_mean)/2
 
         # Run Location Probability
         run_location_numerical_mean = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & run_mask]['run_location_numerical_mean'].values[0]
         run_location_numerical_std = nfl_df_team_view[pos_team_mask & qtr_mask & down_mask & run_mask]['run_location_numerical_std'].values[0]
         if run_location_numerical_mean > 0.5:
-            middle_pass_probability = run_location_numerical_mean
-            left_run_probability = run_location_numerical_std/1.7
-            right_run_probability = run_location_numerical_std/2.3
+            middle_run_probability = run_location_numerical_mean
+            left_run_probability = (1 - run_location_numerical_mean)/2
+            right_run_probability = (1 - run_location_numerical_mean)/2
         else:
-            run_location_numerical_mean = run_location_numerical_mean
-            left_run_probability = run_location_numerical_std/2.3
-            right_run_probability = run_location_numerical_std/1.7
+            middle_run_probability = run_location_numerical_mean
+            left_run_probability = (1 - run_location_numerical_mean)/2
+            right_run_probability = (1 - run_location_numerical_mean)/2
 
     # Integrate Model Output with Dataframe Historical Data
     print("Initalizing Output Dictionary ... ")
@@ -431,7 +432,7 @@ def generatePrediction():
         'prob_left_run': run_prediction_average * left_run_probability,
         'prob_left_run_upperci': run_upper_ci_average * left_run_probability,
         'prob_left_run_lowerci': run_lower_ci_average * left_run_probability,
-        'prob_middle_run': run_prediction_average * middle_pass_probability,
+        'prob_middle_run': run_prediction_average * middle_run_probability,
         'prob_middle_run_upperci': run_upper_ci_average * middle_pass_probability,
         'prob_middle_run_lowerci': run_lower_ci_average * middle_pass_probability,
         'prob_right_run': run_prediction_average * right_run_probability,
@@ -444,6 +445,10 @@ def generatePrediction():
         print(key, value)
     global viz_data
     viz_data = f
+
+    # Print Calculation Time
+    print("\nTime to Compute: ", datetime.now() - start)
+    print("\nReturning User")
     return render_template('index.html')
 
 @app.route('/get-data', methods=['POST', 'GET'])
