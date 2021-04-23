@@ -6,22 +6,22 @@ d3.json('/get-data', function(err, data){
         data1.push({ group: "LEFT", variable: "RUN", value: parseFloat(data['prob_left_run']) })
         data1.push({ group: "MIDDLE", variable: "RUN", value: parseFloat(data['prob_middle_run']) })
         data1.push({ group: "RIGHT", variable: "RUN", value: parseFloat(data['prob_right_run']) })
-        data1.push({ group: "LEFT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
-        data1.push({ group: "MIDDLE", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
-        data1.push({ group: "RIGHT", variable: "Pass (Short)", value: parseFloat(data['prob_short_pass']) })
-        data1.push({ group: "LEFT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
-        data1.push({ group: "MIDDLE", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
-        data1.push({ group: "RIGHT", variable: "Pass (Long)", value: parseFloat(data['prob_long_pass']) })
+        data1.push({ group: "LEFT", variable: "Pass (Short)", value: parseFloat(data['prob_short_left_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Short)", value: parseFloat(data['prob_short_middle_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Short)", value: parseFloat(data['prob_short_right_pass']) })
+        data1.push({ group: "LEFT", variable: "Pass (Long)", value: parseFloat(data['prob_long_left_pass']) })
+        data1.push({ group: "MIDDLE", variable: "Pass (Long)", value: parseFloat(data['prob_long_middle_pass']) })
+        data1.push({ group: "RIGHT", variable: "Pass (Long)", value: parseFloat(data['prob_long_right_pass']) })
 
 // set the dimensions and margins of the graph
-var margin = {top: 40, right: 0, bottom: 30, left: 100},
+var margin = {top: 25, right: 0, bottom: 30, left: 65},
   width = 800 - margin.left - margin.right,
   height = 360 - margin.top - margin.bottom;
 // set dimensions of background field
-var field_w = 600;
+var field_w = 700;
 var field_h = 280;
-var map_w = 570
-var map_h = 270
+var map_w = 0.95*field_w
+var map_h = field_h - 10
 // append the svg object to the body of the page
 var svg_h = d3.select("#heatmap_viz")
             .append("svg")
@@ -64,11 +64,11 @@ function createAxes(predictions){
         .domain(myGroups)
         //.padding(0.05);
 
-    //Append the y-axis
+    //Append the x-axis
     svg_h.append("g")
         .style("font-size", 15)
         .attr("class", "hmapAxis")
-        .attr("transform", "translate(0, 0)")
+        .attr("transform", "translate(17.5, 0)")
         .call(d3.axisTop(x).tickSize(0))
         .select(".domain").remove()
 
@@ -119,7 +119,17 @@ function createAxes(predictions){
       .style("opacity", 0)
     d3.select(this)
       .style("stroke-width", box_stroke_width)
-      .style("opacity", function(d) { if (d.value == 0){ return 0.25} else {return 0.8} })
+      .style("opacity", function(d) {
+                    if (d.value == 0) {
+                        return .25}
+                    else if (d.value == dataMax)  {
+                        return 1.00
+                    }
+                    else {
+                        return 0.8
+                    }
+
+       })
     }
 
   }
@@ -132,7 +142,7 @@ function createHeatmap(selection, predictions) {
         .enter()
             .append("rect")
             .attr("class", "hmap_box")
-            .attr("x", function(d) { return x(d.group)+15 })
+            .attr("x", function(d) { return x(d.group)+17.5 })
             .attr("y", function(d) { return y(d.variable) })
             //.attr("rx", 10)
             //.attr("ry", 10)
@@ -140,7 +150,16 @@ function createHeatmap(selection, predictions) {
             .attr("height", y.bandwidth() )
             .style("stroke-width", box_stroke_width)
             .style("stroke", "black")
-            .style("opacity", function(d) { if (d.value == 0) {return .25} else {return 0.8}})
+            .style("opacity", function(d) {
+                    if (d.value == 0) {
+                        return .25}
+                    else if (d.value == dataMax)  {
+                        return 1.00
+                    }
+                    else {
+                        return 0.8
+                        }
+             })
             .style("fill", function(d) { return myColor(d.value)} )
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
@@ -157,10 +176,10 @@ function createHeatmap(selection, predictions) {
             .style("fill", "black")
             .style("font-weight", "bold")
             .style("opacity", .5)
-            .style('font-size', '12px')
-            .attr("x", function(d) { return x(d.group)+100})
-            .attr("y", function(d) { return y(d.variable)+15})
-            .text(function(d){return parseFloat(d.value).toFixed(2)})
+            .style('font-size', '16px')
+            .attr("x", function(d) { return x(d.group)+100+17.5})
+            .attr("y", function(d) { return y(d.variable)+25})
+            .text(function(d){return parseFloat(d.value*100).toFixed(2)+"%"})
     boxes_text
         .exit().remove()
 }
@@ -227,11 +246,12 @@ var xScale = d3.scaleLinear()
 	 .range([-legendWidth/2, legendWidth/2])
 	 .domain([ dataMin, dataMax] );
 
+var formatPercent = d3.format(".0%");
 //Define x-axis for the legend
 var xAxis = d3.axisBottom()
       .tickSize(0)
-	  .scale(xScale);
-	  //.tickFormat(formatPercent)
+	  .scale(xScale)
+	  .tickFormat(formatPercent)
 
 //Set up X axis
 legendsvg.append("g")
@@ -266,7 +286,7 @@ function createField (){
       .attr("class", "axis_box")
       .attr("x", 0)
       .attr("y", -30)
-      .attr("width", field_w/3)
+      .attr("width", field_w/3+5)
       .attr("height", 30 )
       .style("fill", "gray")
       .style("stroke", "#c4c4c4")
@@ -274,9 +294,9 @@ function createField (){
       .style("opacity", 1)
   svg_h.append("rect")
       .attr("class", "axis_box")
-      .attr("x", field_w/3)
+      .attr("x", field_w/3+5)
       .attr("y", -30)
-      .attr("width", field_w/3)
+      .attr("width", field_w/3-10)
       .attr("height", 30 )
       .style("fill", "gray")
       .style("stroke", "#c4c4c4")
@@ -284,9 +304,9 @@ function createField (){
       .style("opacity", 1)
   svg_h.append("rect")
       .attr("class", "axis_box")
-      .attr("x", field_w/3*2)
+      .attr("x", field_w/3*2-5)
       .attr("y", -30)
-      .attr("width", field_w/3)
+      .attr("width", field_w/3+5)
       .attr("height", 30 )
       .style("fill", "gray")
       .style("stroke", "#c4c4c4")
@@ -407,47 +427,50 @@ function createField (){
 //center hashes
 var left_hash = .35
 var right_hash = .685
+var left_center_pos = map_w / 3 + 17.5
+var right_center_pos = 2*(map_w / 3) + 17.5
   for(var i = 1; i < 12; i++) {
 	svg_h.append("line")
       .style("stroke", "white")
       .style("stroke-width", 4)
-      .attr("x1", field_w*left_hash-hash_w)
+      //.attr("x1", field_w*left_hash-hash_w)
+      .attr("x1", left_center_pos - hash_w/2)
       .attr("y1", scrimmage_line - tenyds/4*i)
-      .attr("x2", field_w*left_hash)
+      .attr("x2", left_center_pos + hash_w/2)
       .attr("y2", scrimmage_line - tenyds/4*i);
 }
   for(var i = 1; i < 6; i++) {
 	svg_h.append("line")
       .style("stroke", "white")
       .style("stroke-width", 4)
-      .attr("x1", field_w*left_hash-hash_w)
+      .attr("x1", left_center_pos - hash_w/2)
       .attr("y1", scrimmage_line + tenyds/4*i)
-      .attr("x2", field_w*left_hash)
+      .attr("x2", left_center_pos + hash_w/2)
       .attr("y2", scrimmage_line + tenyds/4*i);
 }
   for(var i = 1; i < 12; i++) {
 	svg_h.append("line")
       .style("stroke", "white")
       .style("stroke-width", 4)
-      .attr("x1", field_w*right_hash-hash_w)
+      .attr("x1", right_center_pos - hash_w/2)
       .attr("y1", scrimmage_line - tenyds/4*i)
-      .attr("x2", field_w*right_hash)
+      .attr("x2", right_center_pos + hash_w/2)
       .attr("y2", scrimmage_line - tenyds/4*i);
 }
   for(var i = 1; i < 6; i++) {
 	svg_h.append("line")
       .style("stroke", "white")
       .style("stroke-width", 4)
-      .attr("x1", field_w*right_hash-hash_w)
+      .attr("x1", right_center_pos - hash_w/2)
       .attr("y1", scrimmage_line + tenyds/4*i)
-      .attr("x2", field_w*right_hash)
+      .attr("x2", right_center_pos + hash_w/2)
       .attr("y2", scrimmage_line + tenyds/4*i);
 }
 var myUrl = d3.select('#inputYardLine').property('value');
   //Add Yard Lines Numbers
     svg_h.append("text")
       .attr("x", 160)
-      .attr("y", -120)
+      .attr("y", -35)
       .attr("id", "yardline")
       .attr("text-anchor", "left")
       .attr('transform', 'rotate(90)')
@@ -458,7 +481,7 @@ var myUrl = d3.select('#inputYardLine').property('value');
       .text(myUrl);
     svg_h.append("text")
       .attr("x", -215)
-      .attr("y", 490)
+      .attr("y", 670)
       .attr("id", "yardline")
       .attr("text-anchor", "left")
       .attr('transform', 'rotate(-90)')
