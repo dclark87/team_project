@@ -54,49 +54,6 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading
-            <div class="sidebar-heading">
-                Interface
-            </div>-->
-
-            <!-- Nav Item - Pages Collapse Menu
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="/static/buttons.html">Buttons</a>
-                        <a class="collapse-item" href="/static/cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>-->
-
-            <!-- Nav Item - Utilities Collapse Menu
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="/static/utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="/static/utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="/static/utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="/static/utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>-->
-
-            <!-- Divider
-            <hr class="sidebar-divider">-->
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Data Explorer
@@ -158,11 +115,11 @@
                         <div class="h8">Select the Offense</div>
                             <div class="btn-group btn-group-toggle col" style="margin-bottom: 10px;" data-toggle="buttons">
                               <label class="btn btn-nfl" title="All Teams">
-                                <input type="radio" title="All Teams" name="teamSelector" id="all-teams" value="nfl">
+                                <input type="radio" title="All Teams" name="teamSelector" id="all-teams" value="nfl" checked="checked">
                                   <img src="/static/img/nfl-logos/nfl-logo.gif" width="30">
                               </label>
                               <label class="btn btn-nfl">
-                                <input type="radio" class="btn-check" name="teamSelector" id="ari" value="ari" autocomplete="off" checked="checked">
+                                <input type="radio" class="btn-check" name="teamSelector" id="ari" value="ari" autocomplete="off">
                                   <img src="/static/img/nfl-logos/ari-cardinals.gif" width="30" >
                               </label>
                               <label class="btn btn-nfl">
@@ -170,7 +127,7 @@
                                   <img src="/static/img/nfl-logos/atl-falcons.gif" width="30">
                               </label>
                                 <label class="btn btn-nfl" title="Baltimore Ravens">
-                                    <input type="radio" name="teamSelector" id="bal", value="bal">
+                                    <input type="radio" name="teamSelector" id="bal", value="bal" >
                                     <img src="/static/img/nfl-logos/bal-ravens.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Buffalo Bills">
@@ -295,11 +252,11 @@
                     <!-- Primary Viz Row -->
                     <div class="row">
                         <!-- HeatMap Viz -->
-                        <div style="width: 740px">
+                        <div style="width: 800px">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    class="card-header py-1 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Play Prediction Heatmap</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -308,11 +265,9 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-header">Heat Map:</div>
+                                            <div class="card-body"> This visualization shows the relative area of the field where the next
+                                                play will occur, with a color gradient indicating probability. </div>
                                         </div>
                                     </div>
                                 </div>
@@ -328,7 +283,7 @@
                         <div class="col-xl-5 col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header py-1 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Game Info</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -337,11 +292,9 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-header">Game Info:</div>
+                                            <div class="card-body"> Input the current game parameters below.  These
+                                            parameters are passed to the prediction model for evaluation.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -479,7 +432,7 @@
                         <!-- Play Type Card -->
                         <div class="col-xl-4 col-lg-4">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-1">
                                     <h6 class="m-0 font-weight-bold text-primary">Play Type</h6>
                                 </div>
                                 <div class="card-body" id="play_type_viz">
@@ -491,7 +444,7 @@
                         <!-- Play Direction Card -->
                         <div class="col-xl-4 col-lg-4">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-1">
                                     <h6 class="m-0 font-weight-bold text-primary">Play Direction</h6>
                                 </div>
                                 <div class="card-body" id="play_direction_viz">
@@ -503,7 +456,7 @@
                         <!-- Run vs Pass Card -->
                         <div class="col-xl-4 col-lg-4">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-1">
                                     <h6 class="m-0 font-weight-bold text-primary">Run vs Pass</h6>
                                 </div>
                                 <div class="card-body" id="run_vs_pass_viz">
