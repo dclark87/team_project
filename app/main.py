@@ -68,8 +68,15 @@ nfl_df_team_view = pd.read_csv('./backend_src/data/nfl_team_analysis.csv', low_m
 print("Data imported Successfully")
 print("\nFlask App Configuration Complete\n")
 
-## Data Store
-viz_data = {
+
+
+#####################################
+##### HOME ROUTE (Initial Route #####
+@app.route('/')
+def index():
+
+    global viz_data
+    viz_data = {
             'prob_short_pass': .0,
             'prob_short_pass_upperci': .0,
             'prob_short_pass_lowerci': .0,
@@ -104,12 +111,7 @@ viz_data = {
             'prob_right_run_upperci': .0,
             'prob_right_run_lowerci': .0
         }
-
-#####################################
-##### HOME ROUTE (Initial Route #####
-@app.route('/')
-def index():
-        return render_template('index.html')
+    return render_template('index.html')\
 
 @app.route('/analysis', methods=['POST', 'GET'])
 def generatePrediction():
