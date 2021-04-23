@@ -67,7 +67,41 @@ nfl_df_overall = pd.read_csv('./backend_src/data/nfl_overall_analysis.csv', low_
 nfl_df_team_view = pd.read_csv('./backend_src/data/nfl_team_analysis.csv', low_memory=False)
 print("Data imported Successfully")
 print("\nFlask App Configuration Complete\n")
-
+viz_data = {
+            'prob_short_pass': .0,
+            'prob_short_pass_upperci': .0,
+            'prob_short_pass_lowerci': .0,
+            'prob_short_right_pass': .0,
+            'prob_short_right_pass_upperci': .0,
+            'prob_short_right_pass_lowerci': .0,
+            'prob_short_left_pass': .0,
+            'prob_short_left_pass_upperci': .0,
+            'prob_short_left_pass_lowerci': .0,
+            'prob_short_middle_pass': .0,
+            'prob_short_middle_pass_upperci': .0,
+            'prob_short_middle_pass_lowerci': .0,
+            'prob_long_pass': .0,
+            'prob_long_pass_upperci': .0,
+            'prob_long_pass_lowerci': .0,
+            'prob_long_left_pass': .0,
+            'prob_long_left_pass_upperci': .0,
+            'prob_long_left_pass_lowerci': .0,
+            'prob_long_middle_pass': .0,
+            'prob_long_middle_pass_upperci': .0,
+            'prob_long_middle_pass_lowerci': .0,
+            'prob_long_right_pass': .0,
+            'prob_long_right_pass_upperci': .0,
+            'prob_long_right_pass_lowerci': .0,
+            'prob_left_run':  .0,
+            'prob_left_run_upperci': .0,
+            'prob_left_run_lowerci': .0,
+            'prob_middle_run': .0,
+            'prob_middle_run_upperci': .0,
+            'prob_middle_run_lowerci': .0,
+            'prob_right_run': .0,
+            'prob_right_run_upperci': .0,
+            'prob_right_run_lowerci': .0
+        }
 
 
 #####################################
