@@ -115,135 +115,170 @@
                         <div class="h8">Select the Offense</div>
                             <div class="btn-group btn-group-toggle col" style="margin-bottom: 10px;" data-toggle="buttons">
                               <label class="btn btn-nfl" title="All Teams">
-                                <input type="radio" title="All Teams" name="teamSelector" id="all-teams" value="nfl" checked="checked">
+                                <input type="radio" title="All Teams" name="teamSelector" id="all-teams" value="nfl"
+                                       {% if request.form['teamSelector'] == "nfl" %} checked
+                                        {% elif request.form['teamSelector'] is not defined %} checked {% endif %}
+                                        >
                                   <img src="/static/img/nfl-logos/nfl-logo.gif" width="30">
                               </label>
                               <label class="btn btn-nfl">
-                                <input type="radio" class="btn-check" name="teamSelector" id="ari" value="ari" autocomplete="off">
+                                <input type="radio" class="btn-check" name="teamSelector" id="ari" value="ari"
+                                {% if request.form['teamSelector']== "ari" %} checked {% endif %}>
                                   <img src="/static/img/nfl-logos/ari-cardinals.gif" width="30" >
                               </label>
                               <label class="btn btn-nfl">
-                                <input type="radio" class="btn-check" name="teamSelector" id="atl" value="atl" autocomplete="off" >
+                                <input type="radio" class="btn-check" name="teamSelector" id="atl" value="atl"
+                                {% if request.form['teamSelector']== "atl" %} checked {% endif %}>
                                   <img src="/static/img/nfl-logos/atl-falcons.gif" width="30">
                               </label>
                                 <label class="btn btn-nfl" title="Baltimore Ravens">
-                                    <input type="radio" name="teamSelector" id="bal", value="bal" >
+                                    <input type="radio" name="teamSelector" id="bal", value="bal"
+                                    {% if request.form['teamSelector']== "bal" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/bal-ravens.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Buffalo Bills">
-                                    <input type="radio" name="teamSelector" id="buf", value="buf">
+                                    <input type="radio" name="teamSelector" id="buf", value="buf"
+                                    {% if request.form['teamSelector']== "buf" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/buf-bills.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Carolina Panthers">
-                                    <input type="radio" name="teamSelector" id="car", value="car">
+                                    <input type="radio" name="teamSelector" id="car", value="car"
+                                    {% if request.form['teamSelector']== "car" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/car-panthers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Chicago Bears">
-                                <input type="radio" name="teamSelector" id="chi", value="chi">
+                                <input type="radio" name="teamSelector" id="chi", value="chi"
+                                {% if request.form['teamSelector']== "chi" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/chi-bears.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Cincinatti Bengals">
-                                    <input type="radio" name="teamSelector" id="cin", value="cin">
+                                    <input type="radio" name="teamSelector" id="cin", value="cin"
+                                    {% if request.form['teamSelector']== "cin" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/cin-bengals.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Cleveland Browns">
-                                    <input type="radio" name="teamSelector" id="cle", value="cle">
+                                    <input type="radio" name="teamSelector" id="cle", value="cle"
+                                    {% if request.form['teamSelector']== "cle" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/cle-browns.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Dallas Cowboys">
-                                    <input type="radio" name="teamSelector" id="dal", value="dal">
+                                    <input type="radio" name="teamSelector" id="dal", value="dal"
+                                    {% if request.form['teamSelector']== "dal" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/dal-cowboys.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Denver Broncos">
-                                    <input type="radio" name="teamSelector" id="den", value="den">
+                                    <input type="radio" name="teamSelector" id="den", value="den"
+                                    {% if request.form['teamSelector']== "den" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/den-broncos.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Detroit Lions">
-                                    <input type="radio" name="teamSelector" id="det", value="det">
+                                    <input type="radio" name="teamSelector" id="det", value="det"
+                                    {% if request.form['teamSelector']== "det" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/det-lions.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Green Bay Packers">
-                                    <input type="radio" name="teamSelector" id="gb", value="gb">
+                                    <input type="radio" name="teamSelector" id="gb", value="gb"
+                                    {% if request.form['teamSelector']== "gb" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/gb-packers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Houston Texans">
-                                <input type="radio" name="teamSelector" id="hou", value="hou">
+                                <input type="radio" name="teamSelector" id="hou", value="hou"
+                                {% if request.form['teamSelector']== "hou" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/hou-texans.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Indianapolis Colts">
-                                    <input type="radio" name="teamSelector" id="ind", value="ind">
+                                    <input type="radio" name="teamSelector" id="ind", value="ind"
+                                    {% if request.form['teamSelector']== "ind" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/ind-colts.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Jacksonville Jaguars">
-                                    <input type="radio" name="teamSelector" id="jac", value="jac">
+                                    <input type="radio" name="teamSelector" id="jac", value="jac"
+                                    {% if request.form['teamSelector']== "jac" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/jac-jaguars.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Kansas City Chiefs">
-                                    <input type="radio" name="teamSelector" id="kan", value="kc">
+                                    <input type="radio" name="teamSelector" id="kan", value="kc"
+                                    {% if request.form['teamSelector']== "kan" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/kan-chiefs.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Los Angeles Rams">
-                                    <input type="radio" name="teamSelector" id="lar", value="la">
+                                    <input type="radio" name="teamSelector" id="lar", value="la"
+                                    {% if request.form['teamSelector']== "lar" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/la_rams.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Los Angeles Chargers">
-                                    <input type="radio" name="teamSelector" id="lac", value="lac">
+                                    <input type="radio" name="teamSelector" id="lac", value="lac"
+                                    {% if request.form['teamSelector']== "lac" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/la-chargers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Las Vegas Raiders">
-                                    <input type="radio" name="teamSelector" id="lv", value="oak">
+                                    <input type="radio" name="teamSelector" id="lv", value="oak"
+                                    {% if request.form['teamSelector']== "lv" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/lv-raiders.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Miami Dolphins">
-                                    <input type="radio" name="teamSelector" id="mia", value="mia">
+                                    <input type="radio" name="teamSelector" id="mia", value="mia"
+                                    {% if request.form['teamSelector']== "mia" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/mia-dolphins.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Minnesota Vikings">
-                                    <input type="radio" name="teamSelector" id="min", value="min">
+                                    <input type="radio" name="teamSelector" id="min", value="min"
+                                    {% if request.form['teamSelector']== "min" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/min-vikings.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="New England Patriots">
-                                    <input type="radio" name="teamSelector" id="ne", value="ne">
+                                    <input type="radio" name="teamSelector" id="ne", value="ne"
+                                    {% if request.form['teamSelector']== "ne" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/new-patriots.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="New Orleans Saints">
-                                    <input type="radio" name="teamSelector" id="no", value="no">
+                                    <input type="radio" name="teamSelector" id="no", value="no"
+                                    {% if request.form['teamSelector']== "no" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/no-saints.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="New York Giants">
-                                    <input type="radio" name="teamSelector" id="nyg", value="nyg">
+                                    <input type="radio" name="teamSelector" id="nyg", value="nyg"
+                                    {% if request.form['teamSelector']== "nyg" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/ny-giants.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="New York Jets">
-                                    <input type="radio" name="teamSelector" id="nyj", value="nyj">
+                                    <input type="radio" name="teamSelector" id="nyj", value="nyj"
+                                    {% if request.form['teamSelector']== "nyj" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/ny-jets.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Philadelphia Eagles">
-                                    <input type="radio" name="teamSelector" id="phi", value="phi">
+                                    <input type="radio" name="teamSelector" id="phi", value="phi"
+                                    {% if request.form['teamSelector']== "phi" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/phi-eagles.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Pittsburgh Steelers">
-                                    <input type="radio" name="teamSelector" id="pit", value="pit">
+                                    <input type="radio" name="teamSelector" id="pit", value="pit"
+                                    {% if request.form['teamSelector']== "pit" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/pit-steelers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="San Francisco 49ers">
-                                    <input type="radio" name="teamSelector" id="sf", value="sf">
+                                    <input type="radio" name="teamSelector" id="sf", value="sf"
+                                    {% if request.form['teamSelector']== "sf" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/san-49ers.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Seattle Seahawks">
-                                    <input type="radio" name="teamSelector" id="sea", value="sea">
+                                    <input type="radio" name="teamSelector" id="sea", value="sea"
+                                    {% if request.form['teamSelector']== "sea" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/sea-seahawks.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Tampa Bay Buccaneers">
-                                    <input type="radio" name="teamSelector" id="tb", value="tb">
+                                    <input type="radio" name="teamSelector" id="tb", value="tb"
+                                    {% if request.form['teamSelector']== "tb" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/tb-bucs.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Tennessee Titans">
-                                    <input type="radio" name="teamSelector" id="ten", value="ten">
+                                    <input type="radio" name="teamSelector" id="ten", value="ten"
+                                    {% if request.form['teamSelector']== "ten" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/ten-titans.gif" width="30">
                                 </label>
                                 <label class="btn btn-nfl" title="Washington Football Team">
-                                    <input type="radio" name="teamSelector" id="was", value="was">
+                                    <input type="radio" name="teamSelector" id="was", value="was"
+                                    {% if request.form['teamSelector']== "was" %} checked {% endif %}>
                                     <img src="/static/img/nfl-logos/was-football.gif" width="30">
                                 </label>
                             </div>
@@ -307,21 +342,36 @@
                                         <!-- Input: Offense Score-->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputOffenseScore">Offense Score</label>
-                                            <input id="inputOffenseScore" name="inputOffenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputOffenseScore"
+                                                   name="inputOffenseScore"
+                                                   type="text"
+                                                   placeholder="enter score"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   autocomplete="off"
+                                                   value="{{ request.form['inputOffenseScore'] }}">
                                         </div>
                                         <!-- Input: Defense Score -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputDefenseScore">Defense Score</label>
-                                            <input id="inputDefenseScore" name="inputDefenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputDefenseScore" name="inputDefenseScore" type="text"
+                                                   placeholder="enter score"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   autocomplete="off"
+                                                   value="{{ request.form['inputDefenseScore'] }}">
                                         </div>
                                         <!-- Select: Quarter-->
                                         <div class="col-sm-4">
                                             <label for="selectQuarter"> Quarter</label>
-                                            <select id="selectQuarter" name="selectQuarter" class="form-control form-control-sm input-sm">
-                                              <option value="1">1st</option>
-                                              <option value="2">2nd</option>
-                                              <option value="3">3rd</option>
-                                              <option value="4">4th</option>
+                                            <select id="selectQuarter" name="selectQuarter"
+                                                    class="form-control form-control-sm input-sm"
+                                                    value="{{ request.form['selectQuarter'] }}"
+                                                    autocomplete="off">
+                                              <option value="1" {% if request.form['selectQuarter']== "1" %} selected {% endif %} >1st</option>
+                                              <option value="2" {% if request.form['selectQuarter']== "2" %} selected {% endif %} >2nd</option>
+                                              <option value="3" {% if request.form['selectQuarter']== "3" %} selected {% endif %} >3rd</option>
+                                              <option value="4" {% if request.form['selectQuarter']== "4" %} selected {% endif %} >4th</option>
                                             </select>
                                         </div>
                                     </div><!-- End Row -->
@@ -331,22 +381,37 @@
                                         <div class="col-sm-4">
                                         <!-- Select: Down -->
                                             <label class="control-label" for="selectDown">Down</label>
-                                            <select id="selectDown" name="selectDown" class="form-control form-control-sm input-sm">
-                                              <option value="1">1st</option>
-                                              <option value="2">2nd</option>
-                                              <option value="3">3rd</option>
-                                              <option value="4">4th</option>
+                                            <select id="selectDown" name="selectDown"
+                                                    class="form-control form-control-sm input-sm"
+                                                    value="{{ request.form['selectDown'] }}"
+                                                    autocomplete="off">
+                                              <option value="1" {% if request.form['selectDown']== "1" %} selected {% endif %} >1st</option>
+                                              <option value="2" {% if request.form['selectDown']== "2" %} selected {% endif %} >2nd</option>
+                                              <option value="3" {% if request.form['selectDown']== "3" %} selected {% endif %}  >3rd</option>
+                                              <option value="4" {% if request.form['selectDown']== "4" %} selected {% endif %} >4th</option>
                                             </select>
                                         </div>
                                         <!-- Input: Yards to Go -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputDistance">Yards to Go</label>
-                                            <input id="inputDistance" name="inputDistance" type="text" placeholder="enter yards to go" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputDistance" name="inputDistance"
+                                                   type="text"
+                                                   placeholder="enter yards to go"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['inputDistance'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Input: Yard Line -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputYardLine">Yard Line (0 - 100)</label>
-                                            <input id="inputYardLine" name="inputYardLine" type="text" placeholder="enter yard line" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputYardLine" name="inputYardLine"
+                                                   type="text"
+                                                   placeholder="enter yard line"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['inputYardLine'] }}"
+                                                   autocomplete="off">
                                         </div>
                                     </div><!-- End Row -->
 
@@ -356,17 +421,35 @@
                                       <!-- Time Remaining -->
                                         <div class="col-sm-4">
                                             <label class="control-label col-sm-9" for="timeremaining">Game Clock (mm:ss)</label>
-                                            <input id="timeremaining" name="timeremaining" type="text" placeholder="ex 13:25" class="form-control form-control-sm input-sm" required="">
+                                            <input id="timeremaining" name="timeremaining"
+                                                   type="text"
+                                                   placeholder="ex 13:25"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['timeremaining'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Starting Position -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="startingposition">Offense: Starting Position</label>
-                                            <input id="startingposition" name="startingposition" type="text" placeholder="enter starting position" class="form-control form-control-sm input-sm" required="">
+                                            <input id="startingposition" name="startingposition"
+                                                   type="text"
+                                                   placeholder="enter starting position"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['startingposition'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Input: Timeouts Remaining -->
                                          <div class="col-sm-4">
                                             <label class="control-label" for="timeoutsremaining">Offense: Timeouts Remaining</label>
-                                            <input id="timeoutsremaining" name="timeoutsremaining" type="text" placeholder="enter number" class="form-control form-control-sm input-sm" required="">
+                                            <input id="timeoutsremaining" name="timeoutsremaining"
+                                                   type="text"
+                                                   placeholder="enter number"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['timeoutsremaining'] }}"
+                                                   autocomplete="off">
                                         </div>
 
                                     </div>
@@ -378,9 +461,21 @@
 
                                             <div class="col-sm-5">
                                             <div>
-                                                <input type="radio" id="huddle" name="NoHuddle" value="Huddle" checked="checked">
+                                                <input type="radio"
+                                                       id="huddle"
+                                                       name="NoHuddle"
+                                                       value="Huddle"
+                                                       {% if request.form['NoHuddle'] != "NoHuddle" %} checked
+                                                        {% elif request.form['NoHuddle'] == "Huddle" %} checked
+                                                        {% endif %}
+                                                       >
                                                 <label for="huddle">Huddle</label>
-                                                <input type="radio" id="nohuddle" name="NoHuddle" value="NoHuddle">
+                                                <input type="radio"
+                                                       id="nohuddle"
+                                                       name="NoHuddle"
+                                                       value="NoHuddle"
+                                                       {% if request.form['NoHuddle']== "NoHuddle" %} checked {% endif %}
+                                                        >
                                                 <label for="nohuddle">No-Huddle</label>
                                             </div>
                                         </div>
@@ -391,9 +486,18 @@
                                       </div>
                                       <div class="col-sm-4">
                                           <div>
-                                              <input type="radio" id="goaltogo" name="goaltogo" value="True">
+                                              <input type="radio" id="goaltogo"
+                                                     name="goaltogo"
+                                                     value="True"
+                                                        {% if request.form['goaltogo'] == "True" %} checked {% endif %}
+                                              >
                                               <label for="goaltogo">Yes</label>
-                                              <input type="radio" id="nogoaltogo" name="goaltogo" value="False" checked="checked">
+                                              <input type="radio" id="nogoaltogo"
+                                                     name="goaltogo"
+                                                     value="False"
+                                                     {% if request.form['goaltogo'] is not defined %} checked
+                                                        {% elif request.form['goaltogo'] == "False" %} checked
+                                                        {% endif %}>
                                               <label for="nogoaltogo">No</label>
                                           </div>
                                       </div>
@@ -405,13 +509,14 @@
                                             <label for="selectModel">Select Model</label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <select id="selectModel" name="selectModel" class="form-control form-control-sm input-sm">
-                                              <option value="default">Optimized <i>(Default)</i></option>
-                                              <option value="dt_model">Decision Tree</option>
-                                              <option value="knn_model">K-Nearest Neighbors</option>
-                                              <option value="logit_model">Logistic Regression</option>
-                                              <option value="nn_model">Neural Network</option>
-                                              <option value="rf_model">Random Forest</option>
+                                            <select id="selectModel" name="selectModel"
+                                                    class="form-control form-control-sm input-sm">
+                                              <option value="default" {% if request.form['selectModel']== 'default' %} selected {% endif %}>Optimized <i>(Default)</i></option>
+                                              <option value="dt_model" {% if request.form['selectModel'] == 'dt_model' %} selected {% endif %}>Decision Tree</option>
+                                              <option value="knn_model" {% if request.form['selectModel'] == 'knn_model' %} selected {% endif %}>K-Nearest Neighbors</option>
+                                              <option value="logit_model" {% if request.form['selectModel'] == 'logit_model' %} selected {% endif %}>Logistic Regression</option>
+                                              <option value="nn_model" {% if request.form['selectModel'] == 'nn_model' %} selected {% endif %}>Neural Network</option>
+                                              <option value="rf_model" {% if request.form['selectModel'] == 'rf_model' %} selected {% endif %}>Random Forest</option>
                                             </select>
                                         </div>
                                       <div class="col-sm-5">
