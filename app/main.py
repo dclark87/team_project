@@ -103,7 +103,7 @@ def generatePrediction():
     selected_model = form_input_dict['selectModel']
 
     # Selected Team
-    selected_team = form_input_dict['options']
+    selected_team = form_input_dict['teamSelector']
 
      # Down
     down = int(form_input_dict['selectDown'])

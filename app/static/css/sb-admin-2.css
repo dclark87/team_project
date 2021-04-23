@@ -10708,23 +10708,27 @@ a:focus {
 
 .btn-nfl:hover {
   color: #fff;
+  background-color: #717384;
   border-color: #f0cc00;
 }
 
 .btn-nfl:focus, .btn-secondary.focus {
   color: #fff;
+  background-color: #717384;
   border-color: #f0cc00;
   box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);
 }
 
 .btn-nfl.disabled, .btn-secondary:disabled {
   color: #fff;
+  background-color: #858796;
   border-color: #858796;
 }
 
 .btn-nfl:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-secondary.dropdown-toggle {
   color: #fff;
+  background-color: #6b6d7d;
   border-color: #656776;
 }
 
@@ -10732,8 +10736,6 @@ a:focus {
 .show > .btn-secondary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);
 }
-
-
 
 .btn-circle {
   border-radius: 100%;
@@ -11311,3 +11313,6 @@ body.sidebar-toggled footer.sticky-footer {
   .domain{
   opacity: 0;}
 
+.btn-check:active+.btn-nfl, .btn-check:checked+.btn-nfl, .btn-nfl.active, .btn-nfl:active, .show>.btn-nfl.dropdown-toggle {
+    color: #fff;
+    background-color: gray;
