@@ -307,21 +307,36 @@
                                         <!-- Input: Offense Score-->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputOffenseScore">Offense Score</label>
-                                            <input id="inputOffenseScore" name="inputOffenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputOffenseScore"
+                                                   name="inputOffenseScore"
+                                                   type="text"
+                                                   placeholder="enter score"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   autocomplete="off"
+                                                   value="{{ request.form['inputOffenseScore'] }}">
                                         </div>
                                         <!-- Input: Defense Score -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputDefenseScore">Defense Score</label>
-                                            <input id="inputDefenseScore" name="inputDefenseScore" type="text" placeholder="enter score" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputDefenseScore" name="inputDefenseScore" type="text"
+                                                   placeholder="enter score"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   autocomplete="off"
+                                                   value="{{ request.form['inputDefenseScore'] }}">
                                         </div>
                                         <!-- Select: Quarter-->
                                         <div class="col-sm-4">
                                             <label for="selectQuarter"> Quarter</label>
-                                            <select id="selectQuarter" name="selectQuarter" class="form-control form-control-sm input-sm">
-                                              <option value="1">1st</option>
-                                              <option value="2">2nd</option>
-                                              <option value="3">3rd</option>
-                                              <option value="4">4th</option>
+                                            <select id="selectQuarter" name="selectQuarter"
+                                                    class="form-control form-control-sm input-sm"
+                                                    value="{{ request.form['selectQuarter'] }}"
+                                                    autocomplete="off">
+                                              <option value="1" {% if request.form['selectQuarter']== "1" %} selected {% endif %} >1st</option>
+                                              <option value="2" {% if request.form['selectQuarter']== "2" %} selected {% endif %} >2nd</option>
+                                              <option value="3" {% if request.form['selectQuarter']== "3" %} selected {% endif %} >3rd</option>
+                                              <option value="4" {% if request.form['selectQuarter']== "4" %} selected {% endif %} >4th</option>
                                             </select>
                                         </div>
                                     </div><!-- End Row -->
@@ -331,22 +346,37 @@
                                         <div class="col-sm-4">
                                         <!-- Select: Down -->
                                             <label class="control-label" for="selectDown">Down</label>
-                                            <select id="selectDown" name="selectDown" class="form-control form-control-sm input-sm">
-                                              <option value="1">1st</option>
-                                              <option value="2">2nd</option>
-                                              <option value="3">3rd</option>
-                                              <option value="4">4th</option>
+                                            <select id="selectDown" name="selectDown"
+                                                    class="form-control form-control-sm input-sm"
+                                                    value="{{ request.form['selectDown'] }}"
+                                                    autocomplete="off">
+                                              <option value="1" {% if request.form['selectDown']== "1" %} selected {% endif %} >1st</option>
+                                              <option value="2" {% if request.form['selectDown']== "2" %} selected {% endif %} >2nd</option>
+                                              <option value="3" {% if request.form['selectDown']== "3" %} selected {% endif %}  >3rd</option>
+                                              <option value="4" {% if request.form['selectDown']== "4" %} selected {% endif %} >4th</option>
                                             </select>
                                         </div>
                                         <!-- Input: Yards to Go -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputDistance">Yards to Go</label>
-                                            <input id="inputDistance" name="inputDistance" type="text" placeholder="enter yards to go" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputDistance" name="inputDistance"
+                                                   type="text"
+                                                   placeholder="enter yards to go"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['inputDistance'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Input: Yard Line -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="inputYardLine">Yard Line (0 - 100)</label>
-                                            <input id="inputYardLine" name="inputYardLine" type="text" placeholder="enter yard line" class="form-control form-control-sm input-sm" required="">
+                                            <input id="inputYardLine" name="inputYardLine"
+                                                   type="text"
+                                                   placeholder="enter yard line"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['inputYardLine'] }}"
+                                                   autocomplete="off">
                                         </div>
                                     </div><!-- End Row -->
 
@@ -356,17 +386,35 @@
                                       <!-- Time Remaining -->
                                         <div class="col-sm-4">
                                             <label class="control-label col-sm-9" for="timeremaining">Game Clock (mm:ss)</label>
-                                            <input id="timeremaining" name="timeremaining" type="text" placeholder="ex 13:25" class="form-control form-control-sm input-sm" required="">
+                                            <input id="timeremaining" name="timeremaining"
+                                                   type="text"
+                                                   placeholder="ex 13:25"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['timeremaining'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Starting Position -->
                                         <div class="col-sm-4">
                                             <label class="control-label" for="startingposition">Offense: Starting Position</label>
-                                            <input id="startingposition" name="startingposition" type="text" placeholder="enter starting position" class="form-control form-control-sm input-sm" required="">
+                                            <input id="startingposition" name="startingposition"
+                                                   type="text"
+                                                   placeholder="enter starting position"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['startingposition'] }}"
+                                                   autocomplete="off">
                                         </div>
                                         <!-- Input: Timeouts Remaining -->
                                          <div class="col-sm-4">
                                             <label class="control-label" for="timeoutsremaining">Offense: Timeouts Remaining</label>
-                                            <input id="timeoutsremaining" name="timeoutsremaining" type="text" placeholder="enter number" class="form-control form-control-sm input-sm" required="">
+                                            <input id="timeoutsremaining" name="timeoutsremaining"
+                                                   type="text"
+                                                   placeholder="enter number"
+                                                   class="form-control form-control-sm input-sm"
+                                                   required=""
+                                                   value="{{ request.form['timeoutsremaining'] }}"
+                                                   autocomplete="off">
                                         </div>
 
                                     </div>
@@ -378,9 +426,21 @@
 
                                             <div class="col-sm-5">
                                             <div>
-                                                <input type="radio" id="huddle" name="NoHuddle" value="Huddle" checked="checked">
+                                                <input type="radio"
+                                                       id="huddle"
+                                                       name="NoHuddle"
+                                                       value="Huddle"
+                                                       {% if request.form['NoHuddle'] != "NoHuddle" %} checked
+                                                        {% elif request.form['NoHuddle'] == "Huddle" %} checked
+                                                        {% endif %}
+                                                       >
                                                 <label for="huddle">Huddle</label>
-                                                <input type="radio" id="nohuddle" name="NoHuddle" value="NoHuddle">
+                                                <input type="radio"
+                                                       id="nohuddle"
+                                                       name="NoHuddle"
+                                                       value="NoHuddle"
+                                                       {% if request.form['NoHuddle']== "NoHuddle" %} checked {% endif %}
+                                                        >
                                                 <label for="nohuddle">No-Huddle</label>
                                             </div>
                                         </div>
@@ -405,13 +465,14 @@
                                             <label for="selectModel">Select Model</label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <select id="selectModel" name="selectModel" class="form-control form-control-sm input-sm">
-                                              <option value="default">Optimized <i>(Default)</i></option>
-                                              <option value="dt_model">Decision Tree</option>
-                                              <option value="knn_model">K-Nearest Neighbors</option>
-                                              <option value="logit_model">Logistic Regression</option>
-                                              <option value="nn_model">Neural Network</option>
-                                              <option value="rf_model">Random Forest</option>
+                                            <select id="selectModel" name="selectModel"
+                                                    class="form-control form-control-sm input-sm">
+                                              <option value="default" {% if request.form['selectModel']== 'default' %} selected {% endif %}>Optimized <i>(Default)</i></option>
+                                              <option value="dt_model" {% if request.form['selectModel'] == 'dt_model' %} selected {% endif %}>Decision Tree</option>
+                                              <option value="knn_model" {% if request.form['selectModel'] == 'knn_model' %} selected {% endif %}>K-Nearest Neighbors</option>
+                                              <option value="logit_model" {% if request.form['selectModel'] == 'logit_model' %} selected {% endif %}>Logistic Regression</option>
+                                              <option value="nn_model" {% if request.form['selectModel'] == 'nn_model' %} selected {% endif %}>Neural Network</option>
+                                              <option value="rf_model" {% if request.form['selectModel'] == 'rf_model' %} selected {% endif %}>Random Forest</option>
                                             </select>
                                         </div>
                                       <div class="col-sm-5">
