@@ -271,8 +271,8 @@ def generatePrediction():
 
                 # Inverse for Run Prediction
                 run_prediction_average += 1 - pass_probability
-                run_lower_ci_average += 1 - pass_ci[0]
-                run_upper_ci_average += 1 - pass_ci[1]
+                run_lower_ci_average += 1 - pass_ci[1]
+                run_upper_ci_average += 1 - pass_ci[0]
 
             else:
                 run_prediction = prediction
@@ -287,8 +287,8 @@ def generatePrediction():
 
                 # Inverse for Run Prediction
                 pass_prediction_average += 1 - run_probability
-                run_lower_ci_average += 1 - run_ci[0]
-                run_upper_ci_average += 1 - run_ci[1]
+                pass_lower_ci_average += 1 - run_ci[1]
+                pass_upper_ci_average += 1 - run_ci[0]
 
         pass_prediction_average = pass_prediction_average/len(model_dict)
         pass_lower_ci_average = pass_lower_ci_average/len(model_dict)
@@ -335,8 +335,8 @@ def generatePrediction():
 
             # Inverse for Run Prediction
             run_prediction_average += 1 - pass_probability
-            run_lower_ci_average += 1 - pass_ci[0]
-            run_upper_ci_average += 1 - pass_ci[1]
+            run_lower_ci_average += (1 - pass_ci[1])
+            run_upper_ci_average += (1 - pass_ci[0])
 
         else:
             run_prediction = prediction
@@ -351,8 +351,8 @@ def generatePrediction():
 
             # Inverse for Run Prediction
             pass_prediction_average += 1 - run_probability
-            run_lower_ci_average += 1 - run_ci[0]
-            run_upper_ci_average += 1 - run_ci[1]
+            pass_lower_ci_average += (1 - run_ci[1])
+            pass_upper_ci_average += (1 - run_ci[0])
 
         # Pass
         print("Optimized Final Results for Pass: ")

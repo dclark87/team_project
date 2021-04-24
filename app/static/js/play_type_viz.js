@@ -80,7 +80,7 @@ d3.json('/get-data', function(err, data){
 
         if (err) console.warn(err);
         data2 = []
-        data2.push({ group: "Run", variable: "RUN", value: parseFloat(data['prob_run']), upperci: parseFloat(data['prob_run_lower_ci']), lowerci: parseFloat(data['prob_run_upper_ci'])})
+        data2.push({ group: "Run", variable: "RUN", value: parseFloat(data['prob_run']), upperci: parseFloat(data['prob_run_upper_ci']), lowerci: parseFloat(data['prob_run_lower_ci'])})
         data2.push({ group: "Pass(Short)", variable: "RUN", value: parseFloat(data['prob_short_pass']), upperci: parseFloat(data['prob_short_pass_upperci']), lowerci: parseFloat(data['prob_short_pass_lowerci'])})
         data2.push({ group: "Pass(Long)", variable: "RUN", value: parseFloat(data['prob_long_pass']), upperci: parseFloat(data['prob_long_pass_upperci']), lowerci: parseFloat(data['prob_long_pass_lowerci'])})
 
