@@ -4,12 +4,16 @@
 
 __Directory Structure__
 ```
-flask_app/ -------------- package directory
+app/ -------------------- package directory
+    backend_src/ -------- models and data
     static/ ------------- contains images/css/javascript 
+        js/ ------------- source files for D3 visualizations
     templates/ ---------- html templates
         index.html ------ landing page
-    __init__.py --------- init
-run.py ------------------ create app and run
-requirements.txt -------- req'd packages
+    main.py ------------- main application
+    requirements.txt ---- req'd packages
+screenshots/ ------------ images from model analysis and web app
+build_run.bat ----------- build the Docker image and run
+
 ```
 
